@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebCraft Academy - تعلم تطوير الويب</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --html:#E34C26;--css:#264DE4;--js:#F7DF1E;--js-dark:#c8b400;
+  --bg:#0D0D14;--bg2:#13131E;--bg3:#1A1A28;--bg4:#20202F;
+  --text:#F0F0FF;--muted:#8888AA;--border:rgba(255,255,255,0.08);
+  --green:#00D68F;--red:#FF4D6D;--yellow:#FFD700;--blue:#4DA6FF;
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+
+/* ===== SIDEBAR ===== */
+.sidebar{position:fixed;top:0;right:0;width:280px;height:100vh;background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;z-index:50;transition:.3s}
+.sidebar-header{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
+.logo{font-size:1.4rem;font-weight:900;display:flex;align-items:center;gap:.5rem}
+.logo-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:linear-gradient(135deg,#E34C26,#264DE4)}
+.logo-text{background:linear-gradient(135deg,#E34C26,#4DA6FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* Progress */
+.overall-progress{padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.prog-label{font-size:.75rem;color:var(--muted);margin-bottom:.5rem;display:flex;justify-content:space-between}
+.prog-bar{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--html),var(--css),var(--js-dark));border-radius:3px;transition:.5s}
+
+/* Nav */
+.nav-section{padding:.75rem 1rem .25rem}
+.nav-section-title{font-size:.7rem;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .25rem .5rem}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .75rem;border-radius:var(--radius-sm);cursor:pointer;transition:.15s;font-size:.85rem;color:var(--muted);position:relative;margin-bottom:2px}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--bg4);color:var(--text)}
+.nav-item.done .nav-check{background:var(--green);color:#000}
+.nav-check{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;transition:.2s}
+.nav-tag{margin-right:auto;font-size:.65rem;padding:.1rem .4rem;border-radius:4px;font-weight:700}
+.tag-html{background:rgba(227,76,38,.2);color:var(--html)}
+.tag-css{background:rgba(38,77,228,.2);color:#5B7FFF}
+.tag-js{background:rgba(247,223,30,.15);color:var(--js-dark)}
+
+/* ===== MAIN ===== */
+.main{margin-right:280px;min-height:100vh;padding:2rem;max-width:900px}
+
+/* ===== PAGE ===== */
+.page{display:none}
+.page.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:3rem 1rem 2rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(38,77,228,.15) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.3);border-radius:20px;padding:.3rem .9rem;font-size:.8rem;color:var(--green);margin-bottom:1.5rem}
+.hero h1{font-size:2.8rem;font-weight:900;line-height:1.2;margin-bottom:1rem}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--html),var(--css) 40%,var(--js-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto 2rem;line-height:1.7}
+.hero-langs{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.lang-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;text-align:center;min-width:120px;cursor:pointer;transition:.2s}
+.lang-card:hover{transform:translateY(-3px)}
+.lang-card .lc-icon{font-size:2rem;margin-bottom:.4rem}
+.lang-card .lc-name{font-weight:700;font-size:.9rem}
+.lang-card .lc-count{font-size:.72rem;color:var(--muted);margin-top:.15rem}
+.lang-card.html-c{border-color:rgba(227,76,38,.3)}
+.lang-card.css-c{border-color:rgba(38,77,228,.3)}
+.lang-card.js-c{border-color:rgba(247,223,30,.2)}
+.stats-row{display:flex;justify-content:center;gap:2rem;padding:1.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);max-width:500px;margin:0 auto}
+.stat-item{text-align:center}
+.stat-item .s-num{font-size:1.5rem;font-weight:900}
+.stat-item .s-lbl{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+.btn-start{background:linear-gradient(135deg,var(--html),#264DE4);color:#fff;border:none;padding:.75rem 2rem;border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.5rem;transition:.2s}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(38,77,228,.3)}
+
+/* ===== LESSON PAGE ===== */
+.lesson-header{margin-bottom:1.5rem}
+.breadcrumb{font-size:.8rem;color:var(--muted);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+.breadcrumb span{color:var(--text)}
+.lesson-title{font-size:1.8rem;font-weight:900;margin-bottom:.4rem}
+.lesson-meta{display:flex;gap:1rem;font-size:.8rem;color:var(--muted);flex-wrap:wrap}
+.lesson-meta span{display:flex;align-items:center;gap:.3rem}
+
+/* Content blocks */
+.content-block{margin-bottom:1.75rem}
+.content-block p{line-height:1.8;color:#CCC;font-size:.95rem;margin-bottom:.85rem}
+.content-block h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;margin-top:1.25rem;color:var(--text)}
+.content-block ul,.content-block ol{padding-right:1.25rem;color:#CCC;font-size:.93rem;line-height:1.9}
+.content-block li{margin-bottom:.2rem}
+
+/* Info boxes */
+.info-box{border-radius:var(--radius-sm);padding:1rem 1.25rem;margin:1rem 0;border-right:3px solid}
+.info-box.tip{background:rgba(0,214,143,.07);border-color:var(--green)}
+.info-box.warn{background:rgba(255,215,0,.07);border-color:var(--yellow)}
+.info-box.note{background:rgba(77,166,255,.07);border-color:var(--blue)}
+.info-box-title{font-weight:700;font-size:.82rem;margin-bottom:.35rem}
+.info-box.tip .info-box-title{color:var(--green)}
+.info-box.warn .info-box-title{color:var(--yellow)}
+.info-box.note .info-box-title{color:var(--blue)}
+.info-box p{margin:0;font-size:.88rem;color:#BBB}
+
+/* Code editor */
+.code-editor{border-radius:var(--radius);overflow:hidden;margin:1.25rem 0;border:1px solid var(--border)}
+.editor-header{background:var(--bg3);padding:.6rem 1rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.editor-tabs{display:flex;gap:.5rem}
+.editor-tab{font-size:.78rem;color:var(--muted);padding:.25rem .7rem;border-radius:4px;cursor:pointer;font-family:'Fira Code',monospace;transition:.15s}
+.editor-tab.active{background:var(--bg4);color:var(--text)}
+.editor-actions{display:flex;gap:.5rem}
+.btn-run{background:var(--green);color:#000;border:none;padding:.3rem .9rem;border-radius:6px;font-family:'Cairo',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s}
+.btn-run:hover{opacity:.85}
+.btn-copy{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.3rem .7rem;border-radius:6px;font-family:'Cairo',sans-serif;font-size:.78rem;cursor:pointer;transition:.15s}
+.btn-copy:hover{border-color:var(--text);color:var(--text)}
+.editor-body{display:flex;flex-direction:column}
+.code-area{background:#0A0A12;padding:1.25rem;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.7;color:#ABB2BF;min-height:120px;resize:vertical;border:none;outline:none;width:100%;tab-size:2;direction:ltr;text-align:left}
+.output-panel{border-top:1px solid var(--border);background:#fff}
+.output-panel iframe{width:100%;height:200px;border:none;display:block}
+.output-panel.dark-out{background:var(--bg3)}
+.output-panel pre{padding:1rem;font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.6;color:#ABB2BF;min-height:60px;white-space:pre-wrap;direction:ltr;text-align:left}
+
+/* Syntax highlight */
+.kw{color:#C678DD}.str{color:#98C379}.cm{color:#5C6370;font-style:italic}
+.num{color:#D19A66}.fn{color:#61AFEF}.tag{color:#E06C75}.attr{color:#D19A66}.val{color:#98C379}
+.sel{color:#E06C75}.prop{color:#61AFEF}.pval{color:#98C379}
+
+/* Quiz */
+.quiz-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.quiz-q{font-size:1rem;font-weight:700;margin-bottom:1.1rem;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.quiz-opt{background:var(--bg3);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.7rem 1rem;cursor:pointer;transition:.15s;font-size:.9rem;text-align:right;direction:rtl}
+.quiz-opt:hover{border-color:var(--blue);background:rgba(77,166,255,.07)}
+.quiz-opt.correct{border-color:var(--green);background:rgba(0,214,143,.1);color:var(--green)}
+.quiz-opt.wrong{border-color:var(--red);background:rgba(255,77,109,.1);color:var(--red)}
+.quiz-opt.disabled{pointer-events:none;opacity:.7}
+.quiz-feedback{font-size:.85rem;padding:.6rem .9rem;border-radius:var(--radius-sm);margin-top:.5rem;display:none}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:rgba(0,214,143,.1);color:var(--green);border:1px solid rgba(0,214,143,.2)}
+.quiz-feedback.bad{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.2)}
+
+/* Challenge */
+.challenge-box{background:var(--bg2);border:1px solid rgba(247,223,30,.2);border-radius:var(--radius);overflow:hidden;margin:1.5rem 0}
+.challenge-header{background:rgba(247,223,30,.07);padding:1rem 1.25rem;border-bottom:1px solid rgba(247,223,30,.15);display:flex;align-items:center;gap:.6rem}
+.challenge-badge{background:var(--js-dark);color:#000;font-size:.7rem;font-weight:800;padding:.2rem .55rem;border-radius:4px}
+.challenge-title{font-weight:700;font-size:.95rem}
+.challenge-body{padding:1.25rem}
+.challenge-desc{font-size:.88rem;color:#BBB;line-height:1.7;margin-bottom:1rem}
+.challenge-textarea{width:100%;background:#0A0A12;border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem;font-family:'Fira Code',monospace;font-size:.82rem;color:#ABB2BF;min-height:130px;resize:vertical;outline:none;tab-size:2;direction:ltr;text-align:left;line-height:1.6}
+.challenge-textarea:focus{border-color:rgba(247,223,30,.3)}
+.challenge-actions{display:flex;gap:.6rem;margin-top:.75rem;align-items:center}
+.btn-check{background:var(--js-dark);color:#000;border:none;padding:.5rem 1.2rem;border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.15s}
+.btn-check:hover{opacity:.85}
+.btn-hint{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:.85rem;cursor:pointer;transition:.15s}
+.btn-hint:hover{border-color:var(--yellow);color:var(--yellow)}
+.hint-text{background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.2);border-radius:var(--radius-sm);padding:.7rem 1rem;font-size:.83rem;color:#DDD;margin-top:.6rem;display:none;direction:ltr;text-align:left;font-family:'Fira Code',monospace}
+.hint-text.show{display:block}
+.challenge-result{margin-top:.6rem;padding:.6rem 1rem;border-radius:var(--radius-sm);font-size:.85rem;display:none}
+.challenge-result.show{display:block}
+.challenge-result.ok{background:rgba(0,214,143,.1);border:1px solid rgba(0,214,143,.2);color:var(--green)}
+.challenge-result.bad{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--red)}
+
+/* Lesson nav */
+.lesson-nav{display:flex;justify-content:space-between;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.btn-nav{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.65rem 1.25rem;border-radius:var(--radius-sm);cursor:pointer;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;transition:.2s;display:flex;align-items:center;gap:.4rem}
+.btn-nav:hover{border-color:var(--blue);color:var(--blue)}
+.btn-complete{background:var(--green);color:#000;border:none;padding:.65rem 1.5rem;border-radius:var(--radius-sm);font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:.2s}
+.btn-complete:hover{opacity:.85}
+.btn-complete.done-btn{background:var(--bg4);color:var(--muted);cursor:default}
+
+/* PROGRESS PAGE */
+.progress-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.prog-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.prog-card-title{font-size:.8rem;color:var(--muted);margin-bottom:.4rem}
+.prog-card-val{font-size:1.8rem;font-weight:900}
+.topic-progress{margin-bottom:1rem}
+.tp-header{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem}
+.tp-pct{color:var(--muted);font-size:.8rem}
+.tp-bar{height:8px;background:var(--bg4);border-radius:4px;overflow:hidden}
+.tp-fill-html{background:var(--html)}
+.tp-fill-css{background:var(--css)}
+.tp-fill-js{background:var(--js-dark)}
+
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{width:100%;height:auto;position:relative;border-left:none;border-bottom:1px solid var(--border)}
+  .main{margin-right:0;padding:1.25rem}
+  .hero h1{font-size:1.9rem}
+  .progress-grid{grid-template-columns:1fr}
+  .stats-row{gap:1rem}
+}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:700;padding:.2rem .55rem;border-radius:4px}
+.badge-easy{background:rgba(0,214,143,.15);color:var(--green)}
+.badge-med{background:rgba(255,215,0,.15);color:var(--yellow)}
+.badge-hard{background:rgba(255,77,109,.15);color:var(--red)}
+
+/* Mobile menu toggle */
+.menu-toggle{display:none;position:fixed;bottom:1.5rem;left:1.5rem;z-index:100;background:var(--blue);color:#fff;border:none;width:48px;height:48px;border-radius:50%;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 16px rgba(77,166,255,.4)}
+@media(max-width:768px){.menu-toggle{display:flex;align-items:center;justify-content:center}}
+.sidebar.mobile-hidden{display:none}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">🌐</div>
+      <span class="logo-text">WebCraft</span>
+    </div>
+  </div>
+
+  <div class="overall-progress">
+    <div class="prog-label"><span>تقدمك الإجمالي</span><span id="overallPct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="overallBar" style="width:0%"></div></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">البداية</div>
+    <div class="nav-item active" onclick="showPage('home')" id="nav-home">
+      <div class="nav-check">🏠</div>
+      <span>الصفحة الرئيسية</span>
+    </div>
+    <div class="nav-item" onclick="showPage('progress')" id="nav-progress">
+      <div class="nav-check">📊</div>
+      <span>تقدمي</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">HTML - أساسيات الويب</div>
+    <div class="nav-item" onclick="showLesson('html1')" id="nav-html1">
+      <div class="nav-check" id="chk-html1">1</div>
+      <span>ما هو HTML؟</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('html2')" id="nav-html2">
+      <div class="nav-check" id="chk-html2">2</div>
+      <span>العناصر والوسوم</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('html3')" id="nav-html3">
+      <div class="nav-check" id="chk-html3">3</div>
+      <span>العناوين والفقرات</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('html4')" id="nav-html4">
+      <div class="nav-check" id="chk-html4">4</div>
+      <span>الروابط والصور</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('html5')" id="nav-html5">
+      <div class="nav-check" id="chk-html5">5</div>
+      <span>القوائم والجداول</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('html6')" id="nav-html6">
+      <div class="nav-check" id="chk-html6">6</div>
+      <span>النماذج والإدخال</span>
+      <span class="nav-tag tag-html">HTML</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">CSS - التصميم والتنسيق</div>
+    <div class="nav-item" onclick="showLesson('css1')" id="nav-css1">
+      <div class="nav-check" id="chk-css1">7</div>
+      <span>مقدمة في CSS</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('css2')" id="nav-css2">
+      <div class="nav-check" id="chk-css2">8</div>
+      <span>الألوان والخطوط</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('css3')" id="nav-css3">
+      <div class="nav-check" id="chk-css3">9</div>
+      <span>Box Model</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('css4')" id="nav-css4">
+      <div class="nav-check" id="chk-css4">10</div>
+      <span>Flexbox</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('css5')" id="nav-css5">
+      <div class="nav-check" id="chk-css5">11</div>
+      <span>CSS Grid</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('css6')" id="nav-css6">
+      <div class="nav-check" id="chk-css6">12</div>
+      <span>Animations</span>
+      <span class="nav-tag tag-css">CSS</span>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">JavaScript - البرمجة</div>
+    <div class="nav-item" onclick="showLesson('js1')" id="nav-js1">
+      <div class="nav-check" id="chk-js1">13</div>
+      <span>مقدمة في JS</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('js2')" id="nav-js2">
+      <div class="nav-check" id="chk-js2">14</div>
+      <span>المتغيرات والأنواع</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('js3')" id="nav-js3">
+      <div class="nav-check" id="chk-js3">15</div>
+      <span>الدوال Functions</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('js4')" id="nav-js4">
+      <div class="nav-check" id="chk-js4">16</div>
+      <span>الشروط والحلقات</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('js5')" id="nav-js5">
+      <div class="nav-check" id="chk-js5">17</div>
+      <span>DOM Manipulation</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+    <div class="nav-item" onclick="showLesson('js6')" id="nav-js6">
+      <div class="nav-check" id="chk-js6">18</div>
+      <span>Events & APIs</span>
+      <span class="nav-tag tag-js">JS</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MOBILE TOGGLE -->
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="hero">
+      <div class="hero-badge">✨ مجاني 100% · بدون تسجيل</div>
+      <h1>تعلم <em>HTML, CSS & JS</em><br>من الصفر للاحتراف</h1>
+      <p>منصة تفاعلية كاملة لتعلم تطوير الويب بالعربي. دروس شاملة، أمثلة حية، تحديات عملية، واختبارات لقياس تقدمك.</p>
+      <div class="hero-langs">
+        <div class="lang-card html-c" onclick="showLesson('html1')">
+          <div class="lc-icon">🧱</div>
+          <div class="lc-name" style="color:var(--html)">HTML</div>
+          <div class="lc-count">6 دروس</div>
+        </div>
+        <div class="lang-card css-c" onclick="showLesson('css1')">
+          <div class="lc-icon">🎨</div>
+          <div class="lc-name" style="color:#5B7FFF">CSS</div>
+          <div class="lc-count">6 دروس</div>
+        </div>
+        <div class="lang-card js-c" onclick="showLesson('js1')">
+          <div class="lc-icon">⚡</div>
+          <div class="lc-name" style="color:var(--js-dark)">JavaScript</div>
+          <div class="lc-count">6 دروس</div>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><div class="s-num" style="color:var(--html)">18</div><div class="s-lbl">درس كامل</div></div>
+        <div class="stat-item"><div class="s-num" style="color:#5B7FFF">18</div><div class="s-lbl">تحدي عملي</div></div>
+        <div class="stat-item"><div class="s-num" style="color:var(--js-dark)">54</div><div class="s-lbl">سؤال اختبار</div></div>
+      </div>
+      <button class="btn-start" onclick="showLesson('html1')">🚀 ابدأ التعلم الآن</button>
+    </div>
+  </div>
+
+  <!-- PROGRESS PAGE -->
+  <div class="page" id="page-progress">
+    <div class="lesson-header">
+      <div class="lesson-title">📊 تقدمي في التعلم</div>
+    </div>
+    <div class="progress-grid">
+      <div class="prog-card">
+        <div class="prog-card-title">الدروس المكتملة</div>
+        <div class="prog-card-val" id="p-done">0 / 18</div>
+      </div>
+      <div class="prog-card">
+        <div class="prog-card-title">النسبة الإجمالية</div>
+        <div class="prog-card-val" id="p-pct">0%</div>
+      </div>
+    </div>
+    <div class="prog-card" style="margin-bottom:1rem">
+      <div class="prog-card-title" style="margin-bottom:1rem;font-size:.9rem;font-weight:700;color:var(--text)">التقدم حسب الموضوع</div>
+      <div class="topic-progress">
+        <div class="tp-header"><span style="color:var(--html)">🧱 HTML</span><span class="tp-pct" id="pct-html">0%</span></div>
+        <div class="tp-bar"><div class="tp-fill-html" id="bar-html" style="width:0%;height:100%;border-radius:4px;transition:.5s"></div></div>
+      </div>
+      <div class="topic-progress" style="margin-top:.9rem">
+        <div class="tp-header"><span style="color:#5B7FFF">🎨 CSS</span><span class="tp-pct" id="pct-css">0%</span></div>
+        <div class="tp-bar"><div class="tp-fill-css" id="bar-css" style="width:0%;height:100%;border-radius:4px;transition:.5s"></div></div>
+      </div>
+      <div class="topic-progress" style="margin-top:.9rem">
+        <div class="tp-header"><span style="color:var(--js-dark)">⚡ JavaScript</span><span class="tp-pct" id="pct-js">0%</span></div>
+        <div class="tp-bar"><div class="tp-fill-js" id="bar-js" style="width:0%;height:100%;border-radius:4px;transition:.5s"></div></div>
+      </div>
+    </div>
+    <div class="prog-card" id="completed-list">
+      <div class="prog-card-title" style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.75rem">الدروس المكتملة</div>
+      <div id="completed-lessons-list" style="font-size:.85rem;color:var(--muted);line-height:2">لم تكمل أي درس بعد</div>
+    </div>
+  </div>
+
+  <!-- ========== LESSONS ========== -->
+
+  <!-- HTML 1 -->
+  <div class="page" id="page-html1">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس الأول</div>
+      <div class="lesson-title">ما هو HTML؟</div>
+      <div class="lesson-meta">
+        <span>⏱ 10 دقائق</span>
+        <span><span class="badge badge-easy">سهل</span></span>
+        <span id="status-html1" style="color:var(--muted)">لم يكتمل</span>
+      </div>
+    </div>
+    <div class="content-block">
+      <p>HTML اختصار لـ <strong>HyperText Markup Language</strong> وهي اللغة الأساسية لبناء صفحات الويب. كل موقع على الإنترنت مبني أساساً بـ HTML.</p>
+      <p>HTML مش لغة برمجة بالمعنى الحرفي - هي <strong>لغة توصيف (Markup Language)</strong> بنستخدمها عشان نحدد هيكل المحتوى ومعناه.</p>
+      <div class="info-box tip">
+        <div class="info-box-title">💡 نكتة مفيدة</div>
+        <p>فكر في HTML زي هيكل العظام للإنسان - بتحدد الشكل الأساسي، وبعدين CSS بتجي تلبّسه وتجمّله!</p>
+      </div>
+      <h3>المتصفح بيفهم إيه؟</h3>
+      <p>لما بتكتب كود HTML وتفتحه في المتصفح (Chrome, Firefox, etc.)، المتصفح بيقرأ الكود ده وبيحوله لصفحة يقدر المستخدم يشوفها ويتفاعل معاها.</p>
+      <h3>إزاي بتعمل ملف HTML؟</h3>
+      <ul>
+        <li>افتح أي محرر نصوص (VS Code, Notepad++)</li>
+        <li>احفظ الملف بامتداد <code style="color:var(--html)">.html</code> مثال: <code style="color:var(--html)">index.html</code></li>
+        <li>افتح الملف في المتصفح وشوف النتيجة</li>
+      </ul>
+    </div>
+
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">index.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce1')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce1','out1')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce1" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html lang="ar"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;صفحتي الأولى&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;مرحباً بالعالم!&lt;/h1&gt;
+    &lt;p&gt;هذه أول صفحة HTML أكتبها.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</textarea>
+        <div class="output-panel"><iframe id="out1"></iframe></div>
+      </div>
+    </div>
+
+    <div class="info-box note">
+      <div class="info-box-title">📖 شرح الكود</div>
+      <p><strong>&lt;!DOCTYPE html&gt;</strong> — بتخبر المتصفح إن الملف ده HTML5 | <strong>&lt;html&gt;</strong> — العنصر الجذر الأساسي | <strong>&lt;head&gt;</strong> — معلومات الصفحة (مش بتظهر للمستخدم) | <strong>&lt;body&gt;</strong> — المحتوى الظاهر للمستخدم</p>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">سؤال: HTML هي اختصار لـ؟</div>
+      <div class="quiz-opts" id="q-html1">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html1',false,'❌ غلط! HTML مش لغة برمجة بالمعنى الكامل')">HyperText Making Language</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html1',true,'✅ صح! HyperText Markup Language - لغة توصيف النصوص التشعبية')">HyperText Markup Language</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html1',false,'❌ غلط! ده مش الاسم الصحيح')">HyperTransfer Markup Language</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html1"></div>
+    </div>
+
+    <div class="challenge-box">
+      <div class="challenge-header">
+        <span class="challenge-badge">تحدي</span>
+        <span class="challenge-title">اكتب أول صفحة HTML خاصة بيك</span>
+      </div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب هيكل HTML كامل يحتوي على: DOCTYPE، html، head بداخلها title باسمك، وbody بداخلها h1 ترحب فيه بالزوار.</div>
+        <textarea class="challenge-textarea" id="ch-html1" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html1')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html1')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html1">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;اسمك هنا&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;أهلاً بك!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
+        <div class="challenge-result" id="cr-html1"></div>
+      </div>
+    </div>
+
+    <div class="lesson-nav">
+      <div></div>
+      <div style="display:flex;gap:.6rem">
+        <button class="btn-complete" id="comp-html1" onclick="completeLesson('html1')">✅ إتممت الدرس</button>
+        <button class="btn-nav" onclick="showLesson('html2')">التالي: العناصر والوسوم ←</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTML 2 -->
+  <div class="page" id="page-html2">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس الثاني</div>
+      <div class="lesson-title">العناصر والوسوم (Tags)</div>
+      <div class="lesson-meta"><span>⏱ 12 دقيقة</span><span><span class="badge badge-easy">سهل</span></span><span id="status-html2" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>الوسم (Tag) هو أساس لغة HTML. كل وسم بيوصّف نوع المحتوى الموجود بداخله.</p>
+      <h3>شكل الوسم</h3>
+      <p>معظم الوسوم بيجوا في زوج: <strong>وسم فتح</strong> و<strong>وسم إغلاق</strong>.</p>
+      <div class="info-box note">
+        <div class="info-box-title">📌 مثال</div>
+        <p style="font-family:'Fira Code',monospace;direction:ltr;text-align:left">&lt;p&gt; هذا نص &lt;/p&gt;<br>↑ فتح    ↑ محتوى   ↑ إغلاق (لاحظ الـ /)</p>
+      </div>
+      <h3>وسوم شائعة يجب تعرفها</h3>
+      <ul>
+        <li><code style="color:var(--html)">&lt;h1&gt; - &lt;h6&gt;</code> — عناوين من الأكبر للأصغر</li>
+        <li><code style="color:var(--html)">&lt;p&gt;</code> — فقرة نصية</li>
+        <li><code style="color:var(--html)">&lt;div&gt;</code> — حاوية عامة (block)</li>
+        <li><code style="color:var(--html)">&lt;span&gt;</code> — حاوية سطرية (inline)</li>
+        <li><code style="color:var(--html)">&lt;strong&gt;</code> — نص غامق مهم</li>
+        <li><code style="color:var(--html)">&lt;em&gt;</code> — نص مائل للتأكيد</li>
+        <li><code style="color:var(--html)">&lt;br&gt;</code> — سطر جديد (وسم ذاتي الإغلاق)</li>
+        <li><code style="color:var(--html)">&lt;hr&gt;</code> — خط أفقي فاصل</li>
+      </ul>
+      <h3>السمات (Attributes)</h3>
+      <p>السمات بتضيف معلومات إضافية للعنصر وبتتكتب داخل وسم الفتح:</p>
+      <div class="info-box note">
+        <div class="info-box-title">📌 مثال السمات</div>
+        <p style="font-family:'Fira Code',monospace;direction:ltr;text-align:left">&lt;p id="intro" class="text-blue"&gt;نص&lt;/p&gt;<br>&lt;img src="photo.jpg" alt="صورتي" width="300"&gt;</p>
+      </div>
+    </div>
+
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">elements.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce2')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce2','out2')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce2" spellcheck="false">&lt;h1&gt;عنوان رئيسي&lt;/h1&gt;
+&lt;h2&gt;عنوان ثانوي&lt;/h2&gt;
+&lt;h3&gt;عنوان ثالث&lt;/h3&gt;
+
+&lt;p&gt;هذه &lt;strong&gt;فقرة نصية&lt;/strong&gt; بها كلمة &lt;em&gt;مائلة&lt;/em&gt;.&lt;/p&gt;
+
+&lt;hr&gt;
+
+&lt;p id="second" class="highlight"&gt;
+  هذه فقرة بها &lt;span style="color:red"&gt;نص ملون&lt;/span&gt;.
+&lt;/p&gt;</textarea>
+        <div class="output-panel"><iframe id="out2"></iframe></div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">أي وسم من التالي هو "وسم ذاتي الإغلاق" (لا يحتاج وسم إغلاق)؟</div>
+      <div class="quiz-opts" id="q-html2">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html2',false,'❌ &lt;p&gt; يحتاج وسم إغلاق &lt;/p&gt;')">&lt;p&gt;</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html2',false,'❌ &lt;div&gt; يحتاج وسم إغلاق &lt;/div&gt;')">&lt;div&gt;</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html2',true,'✅ صح! &lt;br&gt; وسم ذاتي الإغلاق مثل &lt;img&gt; و &lt;hr&gt;')">&lt;br&gt;</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html2',false,'❌ &lt;span&gt; يحتاج وسم إغلاق')">&lt;span&gt;</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html2"></div>
+    </div>
+
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">استخدم 3 أنواع مختلفة من الوسوم</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب كود HTML يحتوي على: عنوان h2، فقرة p بداخلها كلمة بالـ strong، وخط فاصل hr.</div>
+        <textarea class="challenge-textarea" id="ch-html2" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html2')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html2')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html2">&lt;h2&gt;عنواني&lt;/h2&gt;
+&lt;p&gt;هذا نص &lt;strong&gt;مهم&lt;/strong&gt; جداً.&lt;/p&gt;
+&lt;hr&gt;</div>
+        <div class="challenge-result" id="cr-html2"></div>
+      </div>
+    </div>
+
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html1')">→ السابق</button>
+      <div style="display:flex;gap:.6rem">
+        <button class="btn-complete" id="comp-html2" onclick="completeLesson('html2')">✅ إتممت الدرس</button>
+        <button class="btn-nav" onclick="showLesson('html3')">التالي ←</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HTML 3 -->
+  <div class="page" id="page-html3">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس الثالث</div>
+      <div class="lesson-title">العناوين والفقرات</div>
+      <div class="lesson-meta"><span>⏱ 10 دقائق</span><span><span class="badge badge-easy">سهل</span></span><span id="status-html3" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>العناوين والفقرات هي اللبنات الأساسية لأي محتوى نصي على الويب.</p>
+      <h3>العناوين Headings</h3>
+      <p>HTML بتوفر 6 مستويات من العناوين من h1 (الأكبر) إلى h6 (الأصغر). h1 هو الأهم في الصفحة وبيُستخدم مرة واحدة فقط عادةً (مهم لـ SEO).</p>
+      <h3>الفقرات Paragraphs</h3>
+      <p>الوسم &lt;p&gt; بيُستخدم لكتابة فقرات نصية. المتصفح بيضيف تلقائياً مسافة فوق وتحت الفقرة.</p>
+      <div class="info-box warn">
+        <div class="info-box-title">⚠️ تنبيه مهم</div>
+        <p>لو كتبت سطور جديدة أو مسافات زيادة في كود HTML مش هتظهر في المتصفح. لازم تستخدم &lt;br&gt; للسطر الجديد.</p>
+      </div>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">headings.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce3')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce3','out3')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce3" spellcheck="false">&lt;h1&gt;عنوان المستوى الأول&lt;/h1&gt;
+&lt;h2&gt;عنوان المستوى الثاني&lt;/h2&gt;
+&lt;h3&gt;عنوان المستوى الثالث&lt;/h3&gt;
+&lt;h4&gt;عنوان المستوى الرابع&lt;/h4&gt;
+&lt;h5&gt;عنوان المستوى الخامس&lt;/h5&gt;
+&lt;h6&gt;عنوان المستوى السادس&lt;/h6&gt;
+
+&lt;p&gt;هذه فقرة نصية عادية. يمكن أن تحتوي على أي نص.&lt;/p&gt;
+&lt;p&gt;هذه فقرة ثانية منفصلة تماماً عن الأولى.&lt;/p&gt;
+
+&lt;p&gt;هذا سطر.&lt;br&gt;هذا سطر جديد في نفس الفقرة.&lt;/p&gt;</textarea>
+        <div class="output-panel"><iframe id="out3"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">كم مرة يُنصح باستخدام وسم &lt;h1&gt; في الصفحة الواحدة؟</div>
+      <div class="quiz-opts" id="q-html3">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html3',false,'❌ مش صح - ممكن تستخدمه أكتر من مرة بس ده مش جيد لـ SEO')">كما تشاء بلا حدود</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html3',true,'✅ صح! مرة واحدة فقط للحصول على أفضل نتائج SEO')">مرة واحدة فقط</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html3',false,'❌ لا، مرتين كتير على صفحة واحدة')">مرتين على الأكثر</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html3"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل صفحة محتوى مقال</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب صفحة HTML لمقال بسيط: عنوان h1 للمقال، عنوان h2 للقسم الأول، فقرتين p للمحتوى.</div>
+        <textarea class="challenge-textarea" id="ch-html3" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html3')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html3')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html3">&lt;h1&gt;عنوان المقال&lt;/h1&gt;
+&lt;h2&gt;المقدمة&lt;/h2&gt;
+&lt;p&gt;هذه فقرة أولى.&lt;/p&gt;
+&lt;p&gt;هذه فقرة ثانية.&lt;/p&gt;</div>
+        <div class="challenge-result" id="cr-html3"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html2')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-html3" onclick="completeLesson('html3')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('html4')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- HTML 4 -->
+  <div class="page" id="page-html4">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس الرابع</div>
+      <div class="lesson-title">الروابط والصور</div>
+      <div class="lesson-meta"><span>⏱ 12 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-html4" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>الروابط - &lt;a&gt; Anchor</h3>
+      <p>الوسم &lt;a&gt; بيُستخدم لإنشاء روابط تشعبية (hyperlinks). أهم سمة فيه هي <code style="color:var(--html)">href</code> اللي بتحدد وجهة الرابط.</p>
+      <ul>
+        <li><code style="color:var(--html)">href="https://..."</code> — رابط لموقع خارجي</li>
+        <li><code style="color:var(--html)">href="page.html"</code> — رابط لصفحة في نفس المشروع</li>
+        <li><code style="color:var(--html)">href="#section"</code> — رابط لقسم في نفس الصفحة</li>
+        <li><code style="color:var(--html)">target="_blank"</code> — فتح الرابط في تبويب جديد</li>
+      </ul>
+      <h3>الصور - &lt;img&gt;</h3>
+      <p>الوسم &lt;img&gt; وسم ذاتي الإغلاق. أهم سماته:</p>
+      <ul>
+        <li><code style="color:var(--html)">src</code> — مسار الصورة (ضروري)</li>
+        <li><code style="color:var(--html)">alt</code> — نص بديل لو الصورة ما اتحملتش (مهم للـ accessibility وSEO)</li>
+        <li><code style="color:var(--html)">width</code> و<code style="color:var(--html)">height</code> — الأبعاد</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">links-images.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce4')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce4','out4')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce4" spellcheck="false">&lt;!-- روابط --&gt;
+&lt;a href="https://www.google.com" target="_blank"&gt;اذهب لجوجل&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;a href="#section2"&gt;انتقل لقسم 2&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+
+&lt;!-- صورة من الإنترنت --&gt;
+&lt;img 
+  src="https://via.placeholder.com/300x150/264DE4/fff?text=CSS+Logo" 
+  alt="شعار CSS"
+  width="300"
+&gt;
+
+&lt;h2 id="section2"&gt;القسم الثاني&lt;/h2&gt;
+&lt;p&gt;وصلت للقسم الثاني!&lt;/p&gt;</textarea>
+        <div class="output-panel"><iframe id="out4"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي سمة بتفتح الرابط في تبويب جديد؟</div>
+      <div class="quiz-opts" id="q-html4">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html4',false,'❌ href بتحدد وجهة الرابط مش طريقة الفتح')">href="_blank"</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html4',true,'✅ صح! target=\"_blank\" بتفتح الرابط في تبويب جديد')">target="_blank"</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html4',false,'❌ open مش سمة HTML موجودة')">open="_blank"</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html4"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل كارت بصورة ورابط</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب HTML فيه: صورة (ممكن تستخدم via.placeholder.com)، عنوان h3 تحتها، ورابط "اقرأ أكثر" يفتح في تبويب جديد.</div>
+        <textarea class="challenge-textarea" id="ch-html4" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html4')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html4')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html4">&lt;img src="https://via.placeholder.com/200x100" alt="صورة"&gt;
+&lt;h3&gt;عنوان الكارت&lt;/h3&gt;
+&lt;a href="https://example.com" target="_blank"&gt;اقرأ أكثر&lt;/a&gt;</div>
+        <div class="challenge-result" id="cr-html4"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html3')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-html4" onclick="completeLesson('html4')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('html5')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- HTML 5 -->
+  <div class="page" id="page-html5">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس الخامس</div>
+      <div class="lesson-title">القوائم والجداول</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-html5" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>القوائم Lists</h3>
+      <p>نوعان رئيسيان من القوائم في HTML:</p>
+      <ul>
+        <li><code style="color:var(--html)">&lt;ul&gt;</code> — Unordered List (قائمة غير مرتبة - بنقاط •)</li>
+        <li><code style="color:var(--html)">&lt;ol&gt;</code> — Ordered List (قائمة مرتبة - بأرقام 1,2,3)</li>
+        <li><code style="color:var(--html)">&lt;li&gt;</code> — عنصر القائمة (List Item) يُستخدم مع كليهما</li>
+        <li><code style="color:var(--html)">&lt;dl&gt;, &lt;dt&gt;, &lt;dd&gt;</code> — قائمة تعريفية</li>
+      </ul>
+      <h3>الجداول Tables</h3>
+      <ul>
+        <li><code style="color:var(--html)">&lt;table&gt;</code> — الجدول نفسه</li>
+        <li><code style="color:var(--html)">&lt;tr&gt;</code> — صف (Table Row)</li>
+        <li><code style="color:var(--html)">&lt;th&gt;</code> — خلية رأس الجدول (Table Header)</li>
+        <li><code style="color:var(--html)">&lt;td&gt;</code> — خلية بيانات (Table Data)</li>
+        <li><code style="color:var(--html)">&lt;thead&gt;, &lt;tbody&gt;, &lt;tfoot&gt;</code> — أقسام الجدول</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">lists-tables.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce5')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce5','out5')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce5" spellcheck="false">&lt;h3&gt;قائمة غير مرتبة&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;قائمة مرتبة&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;تعلم HTML أولاً&lt;/li&gt;
+  &lt;li&gt;ثم CSS&lt;/li&gt;
+  &lt;li&gt;أخيراً JavaScript&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;جدول طلاب&lt;/h3&gt;
+&lt;table border="1" style="border-collapse:collapse;width:100%"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;الاسم&lt;/th&gt;
+      &lt;th&gt;الدرجة&lt;/th&gt;
+      &lt;th&gt;التقدير&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;أحمد&lt;/td&gt;
+      &lt;td&gt;95&lt;/td&gt;
+      &lt;td&gt;ممتاز&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;سارة&lt;/td&gt;
+      &lt;td&gt;87&lt;/td&gt;
+      &lt;td&gt;جيد جداً&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</textarea>
+        <div class="output-panel"><iframe id="out5"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي وسم يُستخدم لإنشاء صف في الجدول؟</div>
+      <div class="quiz-opts" id="q-html5">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html5',false,'❌ &lt;td&gt; للخلية مش الصف')">&lt;td&gt;</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html5',true,'✅ صح! &lt;tr&gt; هو Table Row - صف الجدول')">&lt;tr&gt;</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html5',false,'❌ &lt;th&gt; لخلية الرأس مش الصف')">&lt;th&gt;</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html5"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل جدول منيو مطعم</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل جدول HTML فيه: عمود "الصنف"، عمود "السعر"، وعلى الأقل 3 صفوف بيانات.</div>
+        <textarea class="challenge-textarea" id="ch-html5" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html5')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html5')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html5">&lt;table border="1"&gt;
+  &lt;tr&gt;&lt;th&gt;الصنف&lt;/th&gt;&lt;th&gt;السعر&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;برجر&lt;/td&gt;&lt;td&gt;50 جنيه&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;بيتزا&lt;/td&gt;&lt;td&gt;80 جنيه&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;سلطة&lt;/td&gt;&lt;td&gt;25 جنيه&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</div>
+        <div class="challenge-result" id="cr-html5"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html4')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-html5" onclick="completeLesson('html5')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('html6')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- HTML 6 -->
+  <div class="page" id="page-html6">
+    <div class="lesson-header">
+      <div class="breadcrumb">HTML <span>›</span> الدرس السادس</div>
+      <div class="lesson-title">النماذج والإدخال (Forms)</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-html6" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>النماذج (Forms) هي أهم طريقة لجمع البيانات من المستخدمين على الويب.</p>
+      <h3>عناصر النماذج الأساسية</h3>
+      <ul>
+        <li><code style="color:var(--html)">&lt;form&gt;</code> — الحاوية الرئيسية للنموذج</li>
+        <li><code style="color:var(--html)">&lt;input type="text"&gt;</code> — حقل نص</li>
+        <li><code style="color:var(--html)">&lt;input type="email"&gt;</code> — حقل بريد إلكتروني</li>
+        <li><code style="color:var(--html)">&lt;input type="password"&gt;</code> — حقل كلمة مرور</li>
+        <li><code style="color:var(--html)">&lt;input type="checkbox"&gt;</code> — مربع اختيار</li>
+        <li><code style="color:var(--html)">&lt;input type="radio"&gt;</code> — زر اختيار</li>
+        <li><code style="color:var(--html)">&lt;textarea&gt;</code> — منطقة نص متعددة الأسطر</li>
+        <li><code style="color:var(--html)">&lt;select&gt; / &lt;option&gt;</code> — قائمة منسدلة</li>
+        <li><code style="color:var(--html)">&lt;button&gt;</code> — زر</li>
+        <li><code style="color:var(--html)">&lt;label&gt;</code> — وصف الحقل (مرتبط بـ for=id)</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">form.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce6')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce6','out6')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce6" spellcheck="false">&lt;form&gt;
+  &lt;label for="name"&gt;الاسم:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="text" id="name" placeholder="أدخل اسمك" required&gt;
+  &lt;br&gt;&lt;br&gt;
+
+  &lt;label for="email"&gt;البريد الإلكتروني:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="email" id="email" placeholder="example@mail.com"&gt;
+  &lt;br&gt;&lt;br&gt;
+
+  &lt;label for="course"&gt;الكورس:&lt;/label&gt;&lt;br&gt;
+  &lt;select id="course"&gt;
+    &lt;option&gt;HTML&lt;/option&gt;
+    &lt;option&gt;CSS&lt;/option&gt;
+    &lt;option&gt;JavaScript&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;br&gt;&lt;br&gt;
+
+  &lt;label&gt;المستوى:&lt;/label&gt;&lt;br&gt;
+  &lt;input type="radio" name="level" value="beginner"&gt; مبتدئ&lt;br&gt;
+  &lt;input type="radio" name="level" value="advanced"&gt; متقدم
+  &lt;br&gt;&lt;br&gt;
+
+  &lt;label for="msg"&gt;رسالتك:&lt;/label&gt;&lt;br&gt;
+  &lt;textarea id="msg" rows="3" placeholder="اكتب رسالتك..."&gt;&lt;/textarea&gt;
+  &lt;br&gt;&lt;br&gt;
+
+  &lt;button type="submit"&gt;إرسال&lt;/button&gt;
+&lt;/form&gt;</textarea>
+        <div class="output-panel"><iframe id="out6"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي input type بيستخدم لكلمة المرور (يخفي الحروف)؟</div>
+      <div class="quiz-opts" id="q-html6">
+        <div class="quiz-opt" onclick="checkQ(this,'q-html6',false,'❌ type=text بيظهر الكلمات عادي')">type="text"</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html6',false,'❌ type=hidden بيخفي الحقل كله مش الحروف')">type="hidden"</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-html6',true,'✅ صح! type=password بيحول الحروف لنقاط ••••')">type="password"</div>
+      </div>
+      <div class="quiz-feedback" id="fb-html6"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل فورم تسجيل حساب</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل form بها: حقل username (text)، حقل email، حقل password، وزر تسجيل.</div>
+        <textarea class="challenge-textarea" id="ch-html6" placeholder="اكتب الكود هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('html6')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-html6')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-html6">&lt;form&gt;
+  &lt;input type="text" placeholder="اسم المستخدم"&gt;&lt;br&gt;
+  &lt;input type="email" placeholder="البريد الإلكتروني"&gt;&lt;br&gt;
+  &lt;input type="password" placeholder="كلمة المرور"&gt;&lt;br&gt;
+  &lt;button type="submit"&gt;إنشاء حساب&lt;/button&gt;
+&lt;/form&gt;</div>
+        <div class="challenge-result" id="cr-html6"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html5')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-html6" onclick="completeLesson('html6')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css1')">التالي: CSS ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 1 -->
+  <div class="page" id="page-css1">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس السابع</div>
+      <div class="lesson-title">مقدمة في CSS</div>
+      <div class="lesson-meta"><span>⏱ 12 دقيقة</span><span><span class="badge badge-easy">سهل</span></span><span id="status-css1" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>CSS اختصار لـ <strong>Cascading Style Sheets</strong> - بتُستخدم لتنسيق وتجميل صفحات HTML. لو HTML هو الهيكل، فـ CSS هو الملابس والديكور!</p>
+      <h3>طرق إضافة CSS</h3>
+      <ul>
+        <li><strong>Inline:</strong> <code style="color:#5B7FFF">&lt;p style="color:red"&gt;</code> - مباشرة على العنصر</li>
+        <li><strong>Internal:</strong> داخل وسم <code style="color:#5B7FFF">&lt;style&gt;</code> في الـ head</li>
+        <li><strong>External:</strong> ملف <code style="color:#5B7FFF">.css</code> منفصل مربوط بـ &lt;link&gt; (الأفضل!)</li>
+      </ul>
+      <h3>بنية CSS الأساسية</h3>
+      <div class="info-box note">
+        <div class="info-box-title">📌 Selector + Property + Value</div>
+        <p style="font-family:'Fira Code',monospace;direction:ltr;text-align:left">selector {<br>&nbsp;&nbsp;property: value;<br>&nbsp;&nbsp;property: value;<br>}</p>
+      </div>
+      <h3>المحددات (Selectors)</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">p</code> — كل عناصر &lt;p&gt;</li>
+        <li><code style="color:#5B7FFF">.class-name</code> — كل عناصر بهذا الـ class</li>
+        <li><code style="color:#5B7FFF">#id-name</code> — العنصر بهذا الـ id</li>
+        <li><code style="color:#5B7FFF">*</code> — كل العناصر</li>
+        <li><code style="color:#5B7FFF">h1, h2, p</code> — عناصر متعددة</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">style.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce7')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce7','out7')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce7" spellcheck="false">&lt;style&gt;
+  /* محدد الوسم */
+  h1 { color: #264DE4; }
+
+  /* محدد الكلاس */
+  .highlight { 
+    background-color: yellow; 
+    padding: 5px;
+  }
+
+  /* محدد الـ ID */
+  #special { 
+    color: red; 
+    font-size: 20px;
+    border: 2px solid red;
+    padding: 10px;
+  }
+
+  /* محدد متعدد */
+  h2, h3 { color: green; }
+&lt;/style&gt;
+
+&lt;h1&gt;عنوان أزرق&lt;/h1&gt;
+&lt;h2&gt;عنوان أخضر&lt;/h2&gt;
+&lt;p class="highlight"&gt;فقرة بخلفية صفراء&lt;/p&gt;
+&lt;p id="special"&gt;فقرة خاصة باللون الأحمر&lt;/p&gt;</textarea>
+        <div class="output-panel"><iframe id="out7"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">كيف نستهدف عنصر بـ class="btn" في CSS؟</div>
+      <div class="quiz-opts" id="q-css1">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css1',false,'❌ btn بدون نقطة بيستهدف وسم HTML اسمه btn')">btn { }</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css1',false,'❌ # للـ ID مش الـ class')">#btn { }</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css1',true,'✅ صح! النقطة . تعني class في CSS')">.btn { }</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css1"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">نسّق 3 عناصر بـ CSS</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب HTML وCSS: اجعل h1 باللون الأزرق، فقرة بـ class="main" بخلفية رمادية فاتحة، و p#footer بحجم خط صغير 12px.</div>
+        <textarea class="challenge-textarea" id="ch-css1" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css1')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css1')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css1">&lt;style&gt;
+h1 { color: blue; }
+.main { background: #eee; }
+#footer { font-size: 12px; }
+&lt;/style&gt;
+&lt;h1&gt;عنوان&lt;/h1&gt;
+&lt;p class="main"&gt;نص رئيسي&lt;/p&gt;
+&lt;p id="footer"&gt;ذيل الصفحة&lt;/p&gt;</div>
+        <div class="challenge-result" id="cr-css1"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('html6')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css1" onclick="completeLesson('css1')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css2')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 2 -->
+  <div class="page" id="page-css2">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس الثامن</div>
+      <div class="lesson-title">الألوان والخطوط</div>
+      <div class="lesson-meta"><span>⏱ 12 دقيقة</span><span><span class="badge badge-easy">سهل</span></span><span id="status-css2" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>الألوان في CSS</h3>
+      <ul>
+        <li><strong>أسماء:</strong> <code style="color:#5B7FFF">red, blue, green, tomato, coral</code></li>
+        <li><strong>HEX:</strong> <code style="color:#5B7FFF">#FF0000</code> (أحمر) - الأكثر شيوعاً</li>
+        <li><strong>RGB:</strong> <code style="color:#5B7FFF">rgb(255, 0, 0)</code></li>
+        <li><strong>RGBA:</strong> <code style="color:#5B7FFF">rgba(255, 0, 0, 0.5)</code> - مع شفافية</li>
+        <li><strong>HSL:</strong> <code style="color:#5B7FFF">hsl(0, 100%, 50%)</code></li>
+      </ul>
+      <h3>خصائص النصوص والخطوط</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">font-family</code> — نوع الخط</li>
+        <li><code style="color:#5B7FFF">font-size</code> — حجم الخط (px, em, rem, %)</li>
+        <li><code style="color:#5B7FFF">font-weight</code> — سماكة الخط (normal, bold, 100-900)</li>
+        <li><code style="color:#5B7FFF">font-style</code> — نمط الخط (normal, italic)</li>
+        <li><code style="color:#5B7FFF">text-align</code> — محاذاة النص (left, right, center, justify)</li>
+        <li><code style="color:#5B7FFF">text-decoration</code> — تزيين النص (underline, none, line-through)</li>
+        <li><code style="color:#5B7FFF">line-height</code> — ارتفاع السطر</li>
+        <li><code style="color:#5B7FFF">letter-spacing</code> — المسافة بين الحروف</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">colors-fonts.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce8')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce8','out8')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce8" spellcheck="false">&lt;style&gt;
+  body { font-family: 'Arial', sans-serif; }
+
+  .color-demo { color: #E34C26; }
+  .rgb-demo { color: rgb(38, 77, 228); }
+  .rgba-demo { 
+    background: rgba(247, 223, 30, 0.4); 
+    padding: 5px; 
+  }
+
+  .big-text { font-size: 32px; font-weight: bold; }
+  .italic-text { font-style: italic; color: #666; }
+  .center-text { text-align: center; }
+  .spaced { letter-spacing: 4px; text-transform: uppercase; }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #E34C26, #264DE4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 28px; font-weight: 900;
+  }
+&lt;/style&gt;
+
+&lt;p class="color-demo"&gt;لون HEX: #E34C26&lt;/p&gt;
+&lt;p class="rgb-demo"&gt;لون RGB: rgb(38, 77, 228)&lt;/p&gt;
+&lt;p class="rgba-demo"&gt;خلفية شفافة RGBA&lt;/p&gt;
+&lt;p class="big-text"&gt;نص كبير وغامق&lt;/p&gt;
+&lt;p class="italic-text"&gt;نص مائل&lt;/p&gt;
+&lt;p class="center-text"&gt;نص في المنتصف&lt;/p&gt;
+&lt;p class="spaced"&gt;حروف متباعدة&lt;/p&gt;
+&lt;p class="gradient-text"&gt;نص بتدرج لوني!&lt;/p&gt;</textarea>
+        <div class="output-panel"><iframe id="out8"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الفرق بين rgb() وrgba()؟</div>
+      <div class="quiz-opts" id="q-css2">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css2',false,'❌ كلاهما بيستخدم RGB كنظام ألوان')">rgba أقوى في الألوان</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css2',true,'✅ صح! الـ a في rgba تعني alpha (الشفافية) من 0 إلى 1')">rgba يضيف قيمة الشفافية (alpha)</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css2',false,'❌ rgb قيمها من 0 إلى 255 في الثلاثة')">rgb يستخدم نطاق 0-100</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css2"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">صمّم بطاقة تعريفية بالألوان</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل div بخلفية لون مناسب، اسم شخص بحجم 24px وبالـ bold، وعنوانه الوظيفي بلون رمادي وحجم 14px.</div>
+        <textarea class="challenge-textarea" id="ch-css2" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css2')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css2')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css2">&lt;style&gt;
+.card { background:#f0f4ff; padding:20px; border-radius:10px; }
+.name { font-size:24px; font-weight:bold; color:#333; }
+.job { font-size:14px; color:#777; }
+&lt;/style&gt;
+&lt;div class="card"&gt;
+  &lt;p class="name"&gt;أحمد محمد&lt;/p&gt;
+  &lt;p class="job"&gt;مطور ويب&lt;/p&gt;
+&lt;/div&gt;</div>
+        <div class="challenge-result" id="cr-css2"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css1')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css2" onclick="completeLesson('css2')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css3')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 3 -->
+  <div class="page" id="page-css3">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس التاسع</div>
+      <div class="lesson-title">Box Model - نموذج الصندوق</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-css3" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>الـ Box Model هو من أهم المفاهيم في CSS. كل عنصر HTML هو "صندوق" له 4 طبقات من الخارج للداخل:</p>
+      <ul>
+        <li><strong style="color:#FF6B35">Margin</strong> — المسافة خارج العنصر (بينه وبين العناصر الأخرى)</li>
+        <li><strong style="color:#FFD700">Border</strong> — الحدود حول العنصر</li>
+        <li><strong style="color:#00C851">Padding</strong> — المسافة بين المحتوى والحدود</li>
+        <li><strong style="color:#4DA6FF">Content</strong> — المحتوى الفعلي</li>
+      </ul>
+      <h3>خصائص مهمة</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">width / height</code> — العرض والارتفاع</li>
+        <li><code style="color:#5B7FFF">padding: 10px 20px</code> — (أعلى/أسفل) (يمين/يسار)</li>
+        <li><code style="color:#5B7FFF">margin: auto</code> — للتوسيط الأفقي</li>
+        <li><code style="color:#5B7FFF">border: 2px solid #000</code> — سمك النوع اللون</li>
+        <li><code style="color:#5B7FFF">border-radius</code> — تدوير الزوايا</li>
+        <li><code style="color:#5B7FFF">box-sizing: border-box</code> — يحسب padding وborder ضمن الـ width</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">box-model.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce9')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce9','out9')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce9" spellcheck="false">&lt;style&gt;
+  .box {
+    width: 200px;
+    height: 100px;
+    padding: 20px;
+    border: 3px solid #264DE4;
+    margin: 15px auto;
+    background: #e8f0ff;
+    box-sizing: border-box;
+  }
+
+  .rounded {
+    width: 150px;
+    padding: 15px 25px;
+    background: #E34C26;
+    color: white;
+    border-radius: 25px;
+    text-align: center;
+    margin: 10px auto;
+  }
+
+  .shadow-box {
+    width: 200px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin: 20px auto;
+    text-align: center;
+  }
+&lt;/style&gt;
+
+&lt;div class="box"&gt;صندوق بـ padding وmargin وborder&lt;/div&gt;
+&lt;div class="rounded"&gt;زوايا مدورة&lt;/div&gt;
+&lt;div class="shadow-box"&gt;كارد بظل جميل ✨&lt;/div&gt;</textarea>
+        <div class="output-panel"><iframe id="out9"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الفرق بين padding وmargin؟</div>
+      <div class="quiz-opts" id="q-css3">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css3',false,'❌ العكس هو الصحيح!')">padding خارج العنصر، margin داخله</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css3',true,'✅ صح! padding مسافة داخلية بين المحتوى والحدود، margin مسافة خارجية بين العناصر')">padding داخل العنصر، margin خارجه</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css3',false,'❌ كلاهما مختلف تماماً')">هما نفس الشيء</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css3"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">صمّم كارد احترافي</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل div كارد: عرض 250px، padding 20px، border-radius 12px، box-shadow، خلفية بيضاء، وعنوان ونص بداخله.</div>
+        <textarea class="challenge-textarea" id="ch-css3" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css3')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css3')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css3">&lt;style&gt;
+.card {
+  width: 250px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  background: white;
+}
+&lt;/style&gt;
+&lt;div class="card"&gt;
+  &lt;h3&gt;عنوان الكارد&lt;/h3&gt;
+  &lt;p&gt;محتوى الكارد هنا&lt;/p&gt;
+&lt;/div&gt;</div>
+        <div class="challenge-result" id="cr-css3"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css2')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css3" onclick="completeLesson('css3')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css4')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 4 - Flexbox -->
+  <div class="page" id="page-css4">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس العاشر</div>
+      <div class="lesson-title">Flexbox - التخطيط المرن</div>
+      <div class="lesson-meta"><span>⏱ 18 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-css4" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>Flexbox هو نظام تخطيط CSS قوي بيخليك تتحكم في توزيع العناصر داخل حاوية بسهولة. بديل رائع للـ float القديم!</p>
+      <h3>خصائص الحاوية (Container)</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">display: flex</code> — تفعيل Flexbox</li>
+        <li><code style="color:#5B7FFF">flex-direction</code> — row (افتراضي) | column | row-reverse</li>
+        <li><code style="color:#5B7FFF">justify-content</code> — محاذاة أفقية: flex-start | center | flex-end | space-between | space-around</li>
+        <li><code style="color:#5B7FFF">align-items</code> — محاذاة عمودية: flex-start | center | flex-end | stretch</li>
+        <li><code style="color:#5B7FFF">flex-wrap</code> — wrap | nowrap (هل يكسر السطر؟)</li>
+        <li><code style="color:#5B7FFF">gap</code> — المسافة بين العناصر</li>
+      </ul>
+      <h3>خصائص العنصر (Item)</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">flex: 1</code> — يأخذ المساحة المتاحة</li>
+        <li><code style="color:#5B7FFF">flex-grow</code> — نسبة التمدد</li>
+        <li><code style="color:#5B7FFF">order</code> — ترتيب العنصر</li>
+        <li><code style="color:#5B7FFF">align-self</code> — محاذاة العنصر منفرداً</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">flexbox.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce10')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce10','out10')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce10" spellcheck="false">&lt;style&gt;
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: #f0f4ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  .flex-item {
+    background: #264DE4;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+
+  /* توسيط عمودي وأفقي */
+  .center-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    background: #fff3cd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  /* نافبار */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a2e;
+    padding: 12px 20px;
+    border-radius: 8px;
+  }
+  .navbar .logo { color: white; font-weight: 900; font-size: 18px; }
+  .nav-links { display: flex; gap: 15px; list-style: none; }
+  .nav-links li a { color: #aaa; text-decoration: none; font-size: 14px; }
+&lt;/style&gt;
+
+&lt;h4&gt;space-between:&lt;/h4&gt;
+&lt;div class="flex-container"&gt;
+  &lt;div class="flex-item"&gt;عنصر 1&lt;/div&gt;
+  &lt;div class="flex-item"&gt;عنصر 2&lt;/div&gt;
+  &lt;div class="flex-item"&gt;عنصر 3&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;توسيط كامل:&lt;/h4&gt;
+&lt;div class="center-box"&gt;
+  &lt;p&gt;أنا في المنتصف تماماً! ✨&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;نافبار:&lt;/h4&gt;
+&lt;nav class="navbar"&gt;
+  &lt;div class="logo"&gt;MyBrand&lt;/div&gt;
+  &lt;ul class="nav-links"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;الرئيسية&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;المنتجات&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;تواصل&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</textarea>
+        <div class="output-panel"><iframe id="out10"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي خاصية CSS تُستخدم لتوسيط العناصر أفقياً في Flexbox؟</div>
+      <div class="quiz-opts" id="q-css4">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css4',false,'❌ align-items للمحاذاة العمودية في flex-direction: row')">align-items: center</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css4',true,'✅ صح! justify-content: center للتوسيط الأفقي')">justify-content: center</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css4',false,'❌ text-align للنصوص فقط مش العناصر')">text-align: center</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css4"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل ثلاث كروت بـ Flexbox</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل container بـ display:flex وgap:15px، وبداخله 3 كروت متساوية العرض (flex:1) بخلفيات مختلفة.</div>
+        <textarea class="challenge-textarea" id="ch-css4" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css4')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css4')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css4">&lt;style&gt;
+.row { display:flex; gap:15px; }
+.card { flex:1; padding:20px; border-radius:8px; color:white; }
+&lt;/style&gt;
+&lt;div class="row"&gt;
+  &lt;div class="card" style="background:#E34C26"&gt;HTML&lt;/div&gt;
+  &lt;div class="card" style="background:#264DE4"&gt;CSS&lt;/div&gt;
+  &lt;div class="card" style="background:#c8a000"&gt;JS&lt;/div&gt;
+&lt;/div&gt;</div>
+        <div class="challenge-result" id="cr-css4"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css3')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css4" onclick="completeLesson('css4')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css5')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 5 - Grid -->
+  <div class="page" id="page-css5">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس الحادي عشر</div>
+      <div class="lesson-title">CSS Grid - شبكة التخطيط</div>
+      <div class="lesson-meta"><span>⏱ 18 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-css5" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>CSS Grid هو نظام تخطيط ثنائي الأبعاد (صفوف وأعمدة). يمتاز عن Flexbox في إنه بيتحكم في الاتجاهين في نفس الوقت.</p>
+      <h3>خصائص أساسية</h3>
+      <ul>
+        <li><code style="color:#5B7FFF">display: grid</code> — تفعيل Grid</li>
+        <li><code style="color:#5B7FFF">grid-template-columns: 1fr 1fr 1fr</code> — 3 أعمدة متساوية</li>
+        <li><code style="color:#5B7FFF">grid-template-columns: repeat(3, 1fr)</code> — نفس الشيء مختصر</li>
+        <li><code style="color:#5B7FFF">grid-template-columns: 200px auto 1fr</code> — أعمدة بأحجام مختلفة</li>
+        <li><code style="color:#5B7FFF">grid-template-rows</code> — تحديد الصفوف</li>
+        <li><code style="color:#5B7FFF">gap</code> — المسافة بين الخلايا</li>
+        <li><code style="color:#5B7FFF">grid-column: 1 / 3</code> — العنصر يمتد من عمود 1 إلى 3</li>
+        <li><code style="color:#5B7FFF">grid-row: span 2</code> — يمتد على صفين</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">grid.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce11')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce11','out11')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce11" spellcheck="false">&lt;style&gt;
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .grid-3 div {
+    background: #264DE4;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+  }
+
+  /* Layout كامل */
+  .layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 50px 1fr 40px;
+    gap: 8px;
+    height: 250px;
+  }
+  .layout .header {
+    grid-column: 1 / -1;
+    background: #E34C26; color: white;
+    display: flex; align-items: center;
+    padding: 0 15px; border-radius: 6px;
+    font-weight: bold;
+  }
+  .layout .sidebar {
+    background: #f0f0f0;
+    padding: 15px; border-radius: 6px;
+    font-size: 13px;
+  }
+  .layout .content {
+    background: white; border: 1px solid #eee;
+    padding: 15px; border-radius: 6px;
+  }
+  .layout .footer {
+    grid-column: 1 / -1;
+    background: #333; color: white;
+    display: flex; align-items: center;
+    padding: 0 15px; border-radius: 6px;
+    font-size: 12px;
+  }
+&lt;/style&gt;
+
+&lt;h4&gt;Grid 3 أعمدة:&lt;/h4&gt;
+&lt;div class="grid-3"&gt;
+  &lt;div&gt;عمود 1&lt;/div&gt;
+  &lt;div&gt;عمود 2&lt;/div&gt;
+  &lt;div&gt;عمود 3&lt;/div&gt;
+  &lt;div&gt;عمود 4&lt;/div&gt;
+  &lt;div&gt;عمود 5&lt;/div&gt;
+  &lt;div&gt;عمود 6&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h4&gt;Layout كامل للصفحة:&lt;/h4&gt;
+&lt;div class="layout"&gt;
+  &lt;div class="header"&gt;الرأس (Header)&lt;/div&gt;
+  &lt;div class="sidebar"&gt;القائمة الجانبية&lt;/div&gt;
+  &lt;div class="content"&gt;المحتوى الرئيسي&lt;/div&gt;
+  &lt;div class="footer"&gt;الذيل (Footer) &lt;/div&gt;
+&lt;/div&gt;</textarea>
+        <div class="output-panel"><iframe id="out11"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الفرق الرئيسي بين Flexbox وCSS Grid؟</div>
+      <div class="quiz-opts" id="q-css5">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css5',false,'❌ كلاهما متاح في معظم المتصفحات الحديثة')">Grid أسرع وأكثر توافقاً</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css5',true,'✅ صح! Flexbox أحادي الاتجاه (صف أو عمود)، Grid ثنائي (صفوف وأعمدة معاً)')">Flexbox أحادي الاتجاه، Grid ثنائي الاتجاه</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css5',false,'❌ Flexbox وGrid مختلفان ولكل منهما استخداماته'>)هما نفس الشيء تقريباً</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css5"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل معرض صور بـ Grid</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل grid بـ 3 أعمدة متساوية وgap 10px، وبداخله 6 صور placeholders بألوان مختلفة.</div>
+        <textarea class="challenge-textarea" id="ch-css5" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css5')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css5')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css5">&lt;style&gt;
+.gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.photo { height:80px; border-radius:6px; }
+&lt;/style&gt;
+&lt;div class="gallery"&gt;
+  &lt;div class="photo" style="background:#E34C26"&gt;&lt;/div&gt;
+  &lt;div class="photo" style="background:#264DE4"&gt;&lt;/div&gt;
+  &lt;div class="photo" style="background:#00C851"&gt;&lt;/div&gt;
+  &lt;div class="photo" style="background:#FFD700"&gt;&lt;/div&gt;
+  &lt;div class="photo" style="background:#FF6B35"&gt;&lt;/div&gt;
+  &lt;div class="photo" style="background:#9B59B6"&gt;&lt;/div&gt;
+&lt;/div&gt;</div>
+        <div class="challenge-result" id="cr-css5"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css4')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css5" onclick="completeLesson('css5')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('css6')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- CSS 6 - Animations -->
+  <div class="page" id="page-css6">
+    <div class="lesson-header">
+      <div class="breadcrumb">CSS <span>›</span> الدرس الثاني عشر</div>
+      <div class="lesson-title">Transitions & Animations</div>
+      <div class="lesson-meta"><span>⏱ 18 دقيقة</span><span><span class="badge badge-hard">متقدم</span></span><span id="status-css6" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>Transitions - التحولات</h3>
+      <p>بتضيف انتقال ناعم عند تغيير خصائص CSS (مع :hover مثلاً)</p>
+      <ul>
+        <li><code style="color:#5B7FFF">transition: all 0.3s ease</code> — كل الخصائص في 0.3 ثانية</li>
+        <li><code style="color:#5B7FFF">transition: color 0.2s, transform 0.3s</code> — خصائص محددة</li>
+        <li>خيارات الـ timing: <code style="color:#5B7FFF">ease, linear, ease-in, ease-out, ease-in-out</code></li>
+      </ul>
+      <h3>Animations - الرسوم المتحركة</h3>
+      <p>بتحدد حركة كاملة بـ keyframes:</p>
+      <ul>
+        <li><code style="color:#5B7FFF">animation-name</code> — اسم الـ keyframe</li>
+        <li><code style="color:#5B7FFF">animation-duration</code> — مدة الحركة</li>
+        <li><code style="color:#5B7FFF">animation-iteration-count: infinite</code> — تكرار لانهائي</li>
+        <li><code style="color:#5B7FFF">animation-direction: alternate</code> — ذهاباً وإياباً</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">animations.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce12')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce12','out12')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce12" spellcheck="false">&lt;style&gt;
+  /* Transition على Hover */
+  .hover-btn {
+    background: #264DE4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    margin: 5px;
+  }
+  .hover-btn:hover {
+    background: #E34C26;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Keyframe Animation */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .bouncing {
+    width: 50px; height: 50px;
+    background: #E34C26; border-radius: 50%;
+    animation: bounce 1s ease-in-out infinite;
+    display: inline-block; margin: 20px 15px;
+  }
+  .spinning {
+    width: 50px; height: 50px;
+    background: linear-gradient(135deg, #264DE4, #00D4FF);
+    border-radius: 8px;
+    animation: spin 2s linear infinite;
+    display: inline-block; margin: 20px 15px;
+  }
+  .pulsing {
+    width: 50px; height: 50px;
+    background: #F7DF1E; border-radius: 50%;
+    animation: pulse 1.5s ease infinite;
+    display: inline-block; margin: 20px 15px;
+  }
+&lt;/style&gt;
+
+&lt;h4&gt;Hover Transitions:&lt;/h4&gt;
+&lt;button class="hover-btn"&gt;مرر الماوس علي!&lt;/button&gt;
+&lt;button class="hover-btn"&gt;أنا برضو!&lt;/button&gt;
+
+&lt;h4&gt;Keyframe Animations:&lt;/h4&gt;
+&lt;div class="bouncing"&gt;&lt;/div&gt;
+&lt;div class="spinning"&gt;&lt;/div&gt;
+&lt;div class="pulsing"&gt;&lt;/div&gt;</textarea>
+        <div class="output-panel"><iframe id="out12"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الكلمة المفتاحية لتعريف حركة CSS مخصصة؟</div>
+      <div class="quiz-opts" id="q-css6">
+        <div class="quiz-opt" onclick="checkQ(this,'q-css6',false,'❌ @animation مش موجودة في CSS')">@animation</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css6',true,'✅ صح! @keyframes هي طريقة تعريف مراحل الحركة في CSS')">@keyframes</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-css6',false,'❌ @motion مش موجودة في CSS القياسي')">@motion</div>
+      </div>
+      <div class="quiz-feedback" id="fb-css6"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل زر بـ hover animation</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل زر: لما الماوس يمر عليه يتغير لونه ويكبر بـ transform: scale(1.05) مع transition ناعم.</div>
+        <textarea class="challenge-textarea" id="ch-css6" placeholder="اكتب HTML + CSS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('css6')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-css6')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-css6">&lt;style&gt;
+.btn {
+  background: #264DE4; color: white;
+  padding: 12px 24px; border: none;
+  border-radius: 8px; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  background: #E34C26;
+  transform: scale(1.05);
+}
+&lt;/style&gt;
+&lt;button class="btn"&gt;انقر هنا!&lt;/button&gt;</div>
+        <div class="challenge-result" id="cr-css6"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css5')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-css6" onclick="completeLesson('css6')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js1')">التالي: JavaScript ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 1 -->
+  <div class="page" id="page-js1">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس الثالث عشر</div>
+      <div class="lesson-title">مقدمة في JavaScript</div>
+      <div class="lesson-meta"><span>⏱ 12 دقيقة</span><span><span class="badge badge-easy">سهل</span></span><span id="status-js1" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>JavaScript (JS) هي لغة البرمجة الأساسية للويب. بينما HTML بتحدد المحتوى وCSS بتنسّقه، JS بتضيف التفاعل والحركة والديناميكية.</p>
+      <h3>إضافة JS للصفحة</h3>
+      <ul>
+        <li>Inline: <code style="color:var(--js-dark)">&lt;button onclick="alert('مرحبا')"&gt;</code></li>
+        <li>Internal: <code style="color:var(--js-dark)">&lt;script&gt; // كود JS &lt;/script&gt;</code> (قبل &lt;/body&gt;)</li>
+        <li>External: <code style="color:var(--js-dark)">&lt;script src="app.js"&gt;&lt;/script&gt;</code></li>
+      </ul>
+      <h3>أوامر أساسية</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">console.log()</code> — طباعة في الـ Console</li>
+        <li><code style="color:var(--js-dark)">alert()</code> — رسالة منبثقة</li>
+        <li><code style="color:var(--js-dark)">prompt()</code> — مربع إدخال</li>
+        <li><code style="color:var(--js-dark)">confirm()</code> — مربع تأكيد نعم/لا</li>
+      </ul>
+      <div class="info-box tip">
+        <div class="info-box-title">💡 نصيحة</div>
+        <p>افتح الـ Console في المتصفح بضغط F12 → Console لترى نتائج console.log()</p>
+      </div>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">intro.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce13')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce13','out13')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce13" spellcheck="false">&lt;!-- زر بـ onclick مباشر --&gt;
+&lt;button onclick="alert('أهلاً! مرحباً بك 👋')"&gt;
+  انقر لترى رسالة
+&lt;/button&gt;
+
+&lt;br&gt;&lt;br&gt;
+
+&lt;button onclick="
+  var name = prompt('ما اسمك؟');
+  if(name) alert('أهلاً يا ' + name + '!');
+"&gt;
+  أدخل اسمك
+&lt;/button&gt;
+
+&lt;script&gt;
+  // هذا يظهر في Console المتصفح
+  console.log('مرحباً من JavaScript!');
+  console.log('الوقت الآن: ' + new Date().toLocaleString('ar-EG'));
+  
+  // حساب بسيط
+  var result = 5 + 3 * 2;
+  console.log('نتيجة 5 + 3 * 2 = ' + result);
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out13"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي دالة بتطبع نص في Console المتصفح؟</div>
+      <div class="quiz-opts" id="q-js1">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js1',false,'❌ print() مش موجودة في JavaScript للمتصفح')">print()</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js1',false,'❌ alert() بتظهر مربع منبثق مش في الـ Console')">alert()</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js1',true,'✅ صح! console.log() بتطبع في الـ Developer Console')">console.log()</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js1"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل زر حاسبة بسيطة</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل زر: لما تنقر عليه يسأل عن رقمين بـ prompt ويعرض مجموعهما بـ alert.</div>
+        <textarea class="challenge-textarea" id="ch-js1" placeholder="اكتب HTML + JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js1')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js1')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js1">&lt;button onclick="
+  var a = Number(prompt('الرقم الأول؟'));
+  var b = Number(prompt('الرقم الثاني؟'));
+  alert('المجموع = ' + (a + b));
+"&gt;احسب المجموع&lt;/button&gt;</div>
+        <div class="challenge-result" id="cr-js1"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('css6')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-js1" onclick="completeLesson('js1')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js2')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 2 -->
+  <div class="page" id="page-js2">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس الرابع عشر</div>
+      <div class="lesson-title">المتغيرات والأنواع</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-easy">سهل</span></span><span id="status-js2" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>تعريف المتغيرات</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">let</code> — متغير قابل للتغيير (الأفضل في معظم الحالات)</li>
+        <li><code style="color:var(--js-dark)">const</code> — ثابت (لا يتغير قيمته)</li>
+        <li><code style="color:var(--js-dark)">var</code> — قديم، يُنصح بتجنبه</li>
+      </ul>
+      <h3>أنواع البيانات</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">String</code> — نص: <code>"مرحبا"</code> أو <code>'hello'</code> أو <code>`template`</code></li>
+        <li><code style="color:var(--js-dark)">Number</code> — أرقام: <code>42</code>, <code>3.14</code></li>
+        <li><code style="color:var(--js-dark)">Boolean</code> — <code>true</code> أو <code>false</code></li>
+        <li><code style="color:var(--js-dark)">Array</code> — مصفوفة: <code>['a', 'b', 'c']</code></li>
+        <li><code style="color:var(--js-dark)">Object</code> — كائن: <code>{name: 'أحمد', age: 25}</code></li>
+        <li><code style="color:var(--js-dark)">null</code> — قيمة فارغة متعمدة</li>
+        <li><code style="color:var(--js-dark)">undefined</code> — متغير معرّف بدون قيمة</li>
+      </ul>
+      <h3>Template Literals</h3>
+      <p>طريقة حديثة لدمج المتغيرات في النصوص:</p>
+      <div class="info-box note">
+        <div class="info-box-title">📌 مثال</div>
+        <p style="font-family:'Fira Code',monospace;direction:ltr;text-align:left">let name = 'أحمد';<br>let msg = `أهلاً ${name}, عمرك ${25 + 1} سنة`;</p>
+      </div>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">variables.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce14')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce14','out14')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce14" spellcheck="false">&lt;div id="output" style="font-family:monospace;padding:15px;background:#f9f9f9;border-radius:8px;line-height:2"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // أنواع البيانات
+  let name = 'أحمد';
+  const age = 25;
+  let isStudent = true;
+  let score = 98.5;
+
+  // مصفوفة
+  let skills = ['HTML', 'CSS', 'JavaScript'];
+
+  // كائن
+  let person = {
+    name: 'سارة',
+    age: 22,
+    city: 'القاهرة'
+  };
+
+  // Template Literal
+  let greeting = `أهلاً ${name}! عمرك ${age} سنة.`;
+  let skill1 = `أول مهارة: ${skills[0]}`;
+
+  // عرض النتائج
+  let out = document.getElementById('output');
+  out.innerHTML = `
+    <b>الاسم:</b> ${name} (${typeof name})<br>
+    <b>العمر:</b> ${age} (${typeof age})<br>
+    <b>طالب؟</b> ${isStudent} (${typeof isStudent})<br>
+    <b>الدرجة:</b> ${score}<br>
+    <b>المهارات:</b> ${skills.join(' - ')}<br>
+    <b>المدينة:</b> ${person.city}<br>
+    <b>الرسالة:</b> ${greeting}
+  `;
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out14"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">أي كلمة مفتاحية تُستخدم لتعريف ثابت (لا يتغير) في JS؟</div>
+      <div class="quiz-opts" id="q-js2">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js2',false,'❌ let يسمح بتغيير القيمة')">let</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js2',false,'❌ var قديم ويسمح بتغيير القيمة')">var</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js2',true,'✅ صح! const تعني constant - القيمة ثابتة ولا تتغير')">const</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js2"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل بطاقة تعريف بـ JS</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل متغيرات: name, age, city, skills (array) ثم اعرضها في div باستخدام template literals.</div>
+        <textarea class="challenge-textarea" id="ch-js2" placeholder="اكتب HTML + JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js2')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js2')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js2">&lt;div id="card"&gt;&lt;/div&gt;
+&lt;script&gt;
+  const name = 'اسمك';
+  const age = 20;
+  const city = 'مدينتك';
+  const skills = ['HTML', 'CSS'];
+  
+  document.getElementById('card').innerHTML = `
+    &lt;h2&gt;${name}&lt;/h2&gt;
+    &lt;p&gt;العمر: ${age}&lt;/p&gt;
+    &lt;p&gt;المدينة: ${city}&lt;/p&gt;
+    &lt;p&gt;المهارات: ${skills.join(', ')}&lt;/p&gt;
+  `;
+&lt;/script&gt;</div>
+        <div class="challenge-result" id="cr-js2"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('js1')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-js2" onclick="completeLesson('js2')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js3')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 3 -->
+  <div class="page" id="page-js3">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس الخامس عشر</div>
+      <div class="lesson-title">الدوال (Functions)</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-js3" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>الدالة (Function) هي كتلة كود بتنفذها متى أردت. الفكرة: اكتب الكود مرة واحدة واستدعه كتير!</p>
+      <h3>أنواع الدوال</h3>
+      <ul>
+        <li><strong>Function Declaration:</strong> <code style="color:var(--js-dark)">function greet() {}</code></li>
+        <li><strong>Function Expression:</strong> <code style="color:var(--js-dark)">const greet = function() {}</code></li>
+        <li><strong>Arrow Function:</strong> <code style="color:var(--js-dark)">const greet = () => {}</code> (ES6)</li>
+      </ul>
+      <h3>Parameters & Return</h3>
+      <ul>
+        <li><strong>Parameters</strong> — المدخلات (البيانات اللي بتديها للدالة)</li>
+        <li><strong>Return</strong> — الناتج (اللي الدالة بترجعه)</li>
+        <li>بتستخدم <code style="color:var(--js-dark)">return</code> لإرجاع قيمة</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">functions.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce15')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce15','out15')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce15" spellcheck="false">&lt;div id="result" style="padding:15px;font-family:monospace;line-height:2;background:#f9f9f9;border-radius:8px"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // Function Declaration
+  function greet(name) {
+    return `أهلاً يا ${name}! 👋`;
+  }
+
+  // Arrow Function
+  const add = (a, b) => a + b;
+  const multiply = (a, b) => a * b;
+
+  // دالة بدون return (تعدل DOM)
+  function showMessage(msg) {
+    document.getElementById('result').innerHTML += `<div>${msg}</div>`;
+  }
+
+  // دالة مع قيمة افتراضية
+  function makeTitle(text, level = 1) {
+    return `${'⭐'.repeat(level)} ${text}`;
+  }
+
+  // استدعاء الدوال
+  showMessage(greet('أحمد'));
+  showMessage(`2 + 3 = ${add(2, 3)}`);
+  showMessage(`4 × 5 = ${multiply(4, 5)}`);
+  showMessage(makeTitle('مبتدئ', 1));
+  showMessage(makeTitle('محترف', 3));
+
+  // دالة حاسبة
+  function calculate(a, op, b) {
+    if (op === '+') return a + b;
+    if (op === '-') return a - b;
+    if (op === '*') return a * b;
+    if (op === '/') return b !== 0 ? a / b : 'خطأ: قسمة على صفر';
+  }
+  showMessage(`10 ÷ 2 = ${calculate(10, '/', 2)}`);
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out15"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما هي صيغة Arrow Function الصحيحة؟</div>
+      <div class="quiz-opts" id="q-js3">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js3',false,'❌ هذه Function Declaration العادية')">function add(a, b) { return a + b }</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js3',true,'✅ صح! Arrow Function تستخدم => بدل كلمة function')">const add = (a, b) => a + b</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js3',false,'❌ هذه Function Expression (بدون Arrow)'>)const add = function(a, b) { return a + b }</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js3"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اكتب دالة حاسبة BMI</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اكتب دالة calculateBMI(weight, height) تحسب مؤشر كتلة الجسم (weight / height²) وتعرض النتيجة.</div>
+        <textarea class="challenge-textarea" id="ch-js3" placeholder="اكتب JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js3')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js3')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js3">function calculateBMI(weight, height) {
+  const bmi = weight / (height * height);
+  return `BMI = ${bmi.toFixed(2)}`;
+}
+
+console.log(calculateBMI(70, 1.75));</div>
+        <div class="challenge-result" id="cr-js3"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('js2')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-js3" onclick="completeLesson('js3')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js4')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 4 -->
+  <div class="page" id="page-js4">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس السادس عشر</div>
+      <div class="lesson-title">الشروط والحلقات</div>
+      <div class="lesson-meta"><span>⏱ 15 دقيقة</span><span><span class="badge badge-med">متوسط</span></span><span id="status-js4" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>الشروط (Conditions)</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">if / else if / else</code> — شرط أساسي</li>
+        <li><code style="color:var(--js-dark)">switch</code> — للمقارنة بحالات متعددة</li>
+        <li><code style="color:var(--js-dark)">condition ? 'نعم' : 'لا'</code> — Ternary operator</li>
+      </ul>
+      <h3>عوامل المقارنة</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">===</code> يساوي تماماً (قيمة + نوع)</li>
+        <li><code style="color:var(--js-dark)">!==</code> لا يساوي</li>
+        <li><code style="color:var(--js-dark)">&gt;, &lt;, &gt;=, &lt;=</code> مقارنات عددية</li>
+        <li><code style="color:var(--js-dark)">&amp;&amp;</code> AND (و) | <code style="color:var(--js-dark)">||</code> OR (أو)</li>
+      </ul>
+      <h3>الحلقات (Loops)</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">for</code> — حلقة بعدد محدد</li>
+        <li><code style="color:var(--js-dark)">while</code> — طالما الشرط صحيح</li>
+        <li><code style="color:var(--js-dark)">for...of</code> — للمصفوفات</li>
+        <li><code style="color:var(--js-dark)">forEach</code> — method للمصفوفات</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">conditions-loops.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce16')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce16','out16')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce16" spellcheck="false">&lt;div id="out" style="padding:15px;font-family:monospace;line-height:1.8;background:#f9f9f9;border-radius:8px"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  let out = document.getElementById('out');
+  let html = '';
+
+  // if / else
+  let score = 85;
+  let grade;
+  if (score >= 90) grade = 'ممتاز A';
+  else if (score >= 80) grade = 'جيد جداً B';
+  else if (score >= 70) grade = 'جيد C';
+  else grade = 'مقبول D';
+  html += `&lt;b&gt;الدرجة ${score}:&lt;/b&gt; ${grade}&lt;br&gt;`;
+
+  // Ternary
+  let age = 20;
+  let status = age >= 18 ? 'بالغ' : 'قاصر';
+  html += `&lt;b&gt;الحالة:&lt;/b&gt; ${status}&lt;br&gt;&lt;br&gt;`;
+
+  // for loop
+  html += '&lt;b&gt;جدول 3:&lt;/b&gt;&lt;br&gt;';
+  for (let i = 1; i <= 5; i++) {
+    html += `3 × ${i} = ${3 * i}&lt;br&gt;`;
+  }
+
+  // forEach
+  const langs = ['HTML', 'CSS', 'JavaScript'];
+  html += '&lt;br&gt;&lt;b&gt;اللغات:&lt;/b&gt;&lt;br&gt;';
+  langs.forEach((lang, index) => {
+    html += `${index + 1}. ${lang}&lt;br&gt;`;
+  });
+
+  out.innerHTML = html;
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out16"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الفرق بين == و=== في JavaScript؟</div>
+      <div class="quiz-opts" id="q-js4">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js4',false,'❌ لا فرق في الكتابة يسبب مشاكل، ليسا نفس الشيء')">لا فرق، هما نفس الشيء</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js4',true,'✅ صح! === بيقارن القيمة والنوع معاً (أكثر أماناً)')">== يقارن القيمة فقط، === يقارن القيمة والنوع</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js4',false,'❌ العكس هو الصحيح')">== أكثر دقة من ===</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js4"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل تقييم درجات</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">استخدم حلقة for من 1 إلى 100 بزيادة 10، واستخدم if/else لتقييم كل درجة وعرضها في div.</div>
+        <textarea class="challenge-textarea" id="ch-js4" placeholder="اكتب JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js4')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js4')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js4">&lt;div id="grades"&gt;&lt;/div&gt;
+&lt;script&gt;
+  let html = '';
+  for (let i = 50; i <= 100; i += 10) {
+    let g = i >= 90 ? 'A' : i >= 80 ? 'B' : i >= 70 ? 'C' : 'D';
+    html += `${i} → ${g}&lt;br&gt;`;
+  }
+  document.getElementById('grades').innerHTML = html;
+&lt;/script&gt;</div>
+        <div class="challenge-result" id="cr-js4"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('js3')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-js4" onclick="completeLesson('js4')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js5')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 5 - DOM -->
+  <div class="page" id="page-js5">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس السابع عشر</div>
+      <div class="lesson-title">DOM Manipulation</div>
+      <div class="lesson-meta"><span>⏱ 20 دقيقة</span><span><span class="badge badge-hard">متقدم</span></span><span id="status-js5" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <p>DOM (Document Object Model) هو تمثيل HTML كشجرة من الكائنات. JavaScript تقدر تعدل على هذه الشجرة لتغيير الصفحة ديناميكياً.</p>
+      <h3>اختيار العناصر</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">document.getElementById('id')</code> — باستخدام الـ ID</li>
+        <li><code style="color:var(--js-dark)">document.querySelector('.class')</code> — أول عنصر</li>
+        <li><code style="color:var(--js-dark)">document.querySelectorAll('p')</code> — كل العناصر</li>
+      </ul>
+      <h3>تعديل العناصر</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">.innerHTML = '&lt;b&gt;نص&lt;/b&gt;'</code> — تغيير المحتوى (HTML)</li>
+        <li><code style="color:var(--js-dark)">.textContent = 'نص'</code> — تغيير النص فقط</li>
+        <li><code style="color:var(--js-dark)">.style.color = 'red'</code> — تغيير CSS</li>
+        <li><code style="color:var(--js-dark)">.classList.add('active')</code> — إضافة class</li>
+        <li><code style="color:var(--js-dark)">.classList.remove('active')</code> — حذف class</li>
+        <li><code style="color:var(--js-dark)">.classList.toggle('active')</code> — تبديل class</li>
+        <li><code style="color:var(--js-dark)">.setAttribute('src', 'img.jpg')</code> — تغيير سمة</li>
+      </ul>
+      <h3>إنشاء وإضافة عناصر</h3>
+      <ul>
+        <li><code style="color:var(--js-dark)">document.createElement('div')</code> — إنشاء عنصر</li>
+        <li><code style="color:var(--js-dark)">parent.appendChild(child)</code> — إضافة عنصر</li>
+        <li><code style="color:var(--js-dark)">element.remove()</code> — حذف عنصر</li>
+      </ul>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">dom.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce17')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce17','out17')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce17" spellcheck="false">&lt;style&gt;
+  button { margin: 4px; padding: 8px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .active { background: #264DE4 !important; color: white; }
+  #box { width: 100px; height: 100px; background: #E34C26; border-radius: 8px; margin: 10px 0; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; transition: all 0.3s; }
+  #list { border: 1px solid #eee; border-radius: 8px; padding: 10px; min-height: 50px; margin: 8px 0; }
+  #list div { padding: 4px 8px; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+  input { padding: 8px; border: 1px solid #ddd; border-radius: 6px; margin-left: 5px; font-size: 13px; }
+&lt;/style&gt;
+
+&lt;!-- تغيير النص --&gt;
+&lt;p id="title"&gt;نص أصلي&lt;/p&gt;
+&lt;button onclick="document.getElementById('title').textContent='تغيّر النص! ✅'" style="background:#00C851;color:white"&gt;غيّر النص&lt;/button&gt;
+
+&lt;!-- تغيير الألوان --&gt;
+&lt;div id="box"&gt;لوّنني!&lt;/div&gt;
+&lt;button onclick="document.getElementById('box').style.background='#264DE4'" style="background:#264DE4;color:white"&gt;أزرق&lt;/button&gt;
+&lt;button onclick="document.getElementById('box').style.background='#E34C26'" style="background:#E34C26;color:white"&gt;برتقالي&lt;/button&gt;
+&lt;button onclick="document.getElementById('box').style.transform='rotate(45deg)'" style="background:#9B59B6;color:white"&gt;دوران&lt;/button&gt;
+&lt;button onclick="document.getElementById('box').style.transform=''" style="background:#95a5a6"&gt;إعادة&lt;/button&gt;
+
+&lt;!-- إضافة عناصر --&gt;
+&lt;br&gt;
+&lt;input type="text" id="taskInput" placeholder="مهمة جديدة..."&gt;
+&lt;button onclick="addTask()" style="background:#F7DF1E"&gt;إضافة ➕&lt;/button&gt;
+&lt;div id="list"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  let taskCount = 0;
+  function addTask() {
+    const input = document.getElementById('taskInput');
+    const text = input.value.trim();
+    if (!text) return;
+    taskCount++;
+    const div = document.createElement('div');
+    div.innerHTML = `${taskCount}. ${text} &lt;button onclick="this.parentElement.remove()" style="background:#ff4d6d;color:white;padding:2px 8px;border-radius:4px;float:left"&gt;✕&lt;/button&gt;`;
+    document.getElementById('list').appendChild(div);
+    input.value = '';
+    input.focus();
+  }
+  document.getElementById('taskInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter') addTask();
+  });
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out17"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الفرق بين innerHTML وtextContent؟</div>
+      <div class="quiz-opts" id="q-js5">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js5',true,'✅ صح! innerHTML يقرأ/يكتب HTML كامل، textContent يتعامل مع النص فقط (أكثر أماناً)')">innerHTML يدعم HTML، textContent للنص فقط</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js5',false,'❌ هما مختلفان في التعامل مع HTML')">لا فرق بينهما</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js5',false,'❌ innerHTML أقدم لكنه مختلف ليس أسرع بالضرورة')">textContent أحدث وأسرع دائماً</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js5"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل عداد تفاعلي</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل عداد: زر + يزيد العدد، زر - ينقصه (ما يقلش عن 0)، وعرض العدد في span. استخدم DOM.</div>
+        <textarea class="challenge-textarea" id="ch-js5" placeholder="اكتب HTML + JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js5')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js5')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js5">&lt;button onclick="change(-1)"&gt;-&lt;/button&gt;
+&lt;span id="count"&gt;0&lt;/span&gt;
+&lt;button onclick="change(1)"&gt;+&lt;/button&gt;
+
+&lt;script&gt;
+  let n = 0;
+  function change(x) {
+    n = Math.max(0, n + x);
+    document.getElementById('count').textContent = n;
+  }
+&lt;/script&gt;</div>
+        <div class="challenge-result" id="cr-js5"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('js4')">→ السابق</button>
+      <div style="display:flex;gap:.6rem"><button class="btn-complete" id="comp-js5" onclick="completeLesson('js5')">✅ إتممت الدرس</button><button class="btn-nav" onclick="showLesson('js6')">التالي ←</button></div>
+    </div>
+  </div>
+
+  <!-- JS 6 - Events & APIs -->
+  <div class="page" id="page-js6">
+    <div class="lesson-header">
+      <div class="breadcrumb">JavaScript <span>›</span> الدرس الثامن عشر</div>
+      <div class="lesson-title">Events & Fetch API</div>
+      <div class="lesson-meta"><span>⏱ 20 دقيقة</span><span><span class="badge badge-hard">متقدم</span></span><span id="status-js6" style="color:var(--muted)">لم يكتمل</span></div>
+    </div>
+    <div class="content-block">
+      <h3>الأحداث (Events)</h3>
+      <p>الأحداث هي ردود أفعال الصفحة على تفاعل المستخدم. بتستخدم <code style="color:var(--js-dark)">addEventListener</code>:</p>
+      <ul>
+        <li><code style="color:var(--js-dark)">click</code> — النقر على عنصر</li>
+        <li><code style="color:var(--js-dark)">input / change</code> — تغيير في حقل إدخال</li>
+        <li><code style="color:var(--js-dark)">submit</code> — إرسال نموذج</li>
+        <li><code style="color:var(--js-dark)">keydown / keyup</code> — ضغط مفتاح</li>
+        <li><code style="color:var(--js-dark)">mouseover / mouseout</code> — تحريك الماوس</li>
+        <li><code style="color:var(--js-dark)">load / DOMContentLoaded</code> — تحميل الصفحة</li>
+        <li><code style="color:var(--js-dark)">scroll</code> — التمرير</li>
+      </ul>
+      <h3>Fetch API</h3>
+      <p>بتُستخدم لطلب بيانات من الإنترنت (APIs) بدون إعادة تحميل الصفحة:</p>
+      <div class="info-box tip">
+        <div class="info-box-title">💡 Async/Await</div>
+        <p style="font-family:'Fira Code',monospace;direction:ltr;text-align:left;font-size:.82rem">async function getData() {<br>&nbsp;&nbsp;const res = await fetch('url');<br>&nbsp;&nbsp;const data = await res.json();<br>&nbsp;&nbsp;console.log(data);<br>}</p>
+      </div>
+    </div>
+    <div class="code-editor">
+      <div class="editor-header">
+        <div class="editor-tabs"><div class="editor-tab active">events.html</div></div>
+        <div class="editor-actions">
+          <button class="btn-copy" onclick="copyCode('ce18')">نسخ</button>
+          <button class="btn-run" onclick="runCode('ce18','out18')">▶ تشغيل</button>
+        </div>
+      </div>
+      <div class="editor-body">
+        <textarea class="code-area" id="ce18" spellcheck="false">&lt;style&gt;
+  body { font-family: Arial; padding: 10px; font-size: 14px; }
+  input, button { padding: 8px 12px; margin: 4px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px; }
+  button { background: #264DE4; color: white; border: none; cursor: pointer; }
+  #colorBox { width: 120px; height: 60px; border-radius: 8px; background: #E34C26; margin: 8px 0; display: flex; align-items:center; justify-content:center; color:white; font-weight:bold; transition:.3s; }
+  #log { background: #1a1a2e; color: #00D4FF; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 12px; min-height: 60px; max-height: 100px; overflow-y: auto; }
+&lt;/style&gt;
+
+&lt;!-- تتبع الكتابة --&gt;
+&lt;p&gt;اكتب شيئاً:&lt;/p&gt;
+&lt;input type="text" id="typeInput" placeholder="اكتب هنا..."&gt;
+&lt;p id="typeOut" style="color:#264DE4;font-weight:bold"&gt;&lt;/p&gt;
+
+&lt;!-- تغيير اللون --&gt;
+&lt;p&gt;اختر لوناً:&lt;/p&gt;
+&lt;input type="color" id="colorPicker" value="#E34C26"&gt;
+&lt;div id="colorBox"&gt;اللون&lt;/div&gt;
+
+&lt;!-- سجل الأحداث --&gt;
+&lt;p&gt;سجل الأحداث:&lt;/p&gt;
+&lt;div id="log"&gt;انتظر أحداث...&lt;/div&gt;
+&lt;button onclick="document.getElementById('log').innerHTML=''"&gt;مسح السجل&lt;/button&gt;
+
+&lt;script&gt;
+  const log = document.getElementById('log');
+  function addLog(msg) {
+    const time = new Date().toLocaleTimeString('ar-EG');
+    log.innerHTML = `[${time}] ${msg}&lt;br&gt;` + log.innerHTML;
+  }
+
+  // Event: input
+  document.getElementById('typeInput').addEventListener('input', function(e) {
+    const val = e.target.value;
+    document.getElementById('typeOut').textContent = val ? `كتبت: "${val}" (${val.length} حرف)` : '';
+    addLog(`كتابة: "${val}"`);
+  });
+
+  // Event: color change
+  document.getElementById('colorPicker').addEventListener('input', function(e) {
+    const color = e.target.value;
+    document.getElementById('colorBox').style.background = color;
+    document.getElementById('colorBox').textContent = color;
+    addLog(`لون جديد: ${color}`);
+  });
+
+  // Event: keydown
+  document.addEventListener('keydown', function(e) {
+    addLog(`ضغطت: ${e.key}`);
+  });
+
+  addLog('جاهز! تفاعل مع الصفحة 👆');
+&lt;/script&gt;</textarea>
+        <div class="output-panel"><iframe id="out18"></iframe></div>
+      </div>
+    </div>
+    <div class="quiz-box">
+      <div class="quiz-q">ما الدالة الصحيحة لإضافة event listener؟</div>
+      <div class="quiz-opts" id="q-js6">
+        <div class="quiz-opt" onclick="checkQ(this,'q-js6',false,'❌ addEvent مش موجودة في JavaScript')">element.addEvent('click', fn)</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js6',true,'✅ صح! addEventListener هي الطريقة الصحيحة والحديثة')">element.addEventListener('click', fn)</div>
+        <div class="quiz-opt" onclick="checkQ(this,'q-js6',false,'❌ on() مش طريقة JavaScript أصلية، ده jQuery')">element.on('click', fn)</div>
+      </div>
+      <div class="quiz-feedback" id="fb-js6"></div>
+    </div>
+    <div class="challenge-box">
+      <div class="challenge-header"><span class="challenge-badge">تحدي</span><span class="challenge-title">اعمل قائمة مهام تفاعلية كاملة</span></div>
+      <div class="challenge-body">
+        <div class="challenge-desc">اعمل Todo List: input + زر إضافة + عرض المهام. كل مهمة بها زر حذف. استخدم addEventListener للإضافة بالـ Enter.</div>
+        <textarea class="challenge-textarea" id="ch-js6" placeholder="اكتب HTML + JS هنا..."></textarea>
+        <div class="challenge-actions">
+          <button class="btn-check" onclick="checkChallenge('js6')">✔ تحقق</button>
+          <button class="btn-hint" onclick="toggleHint('hint-js6')">💡 تلميح</button>
+        </div>
+        <div class="hint-text" id="hint-js6">&lt;input id="inp" placeholder="مهمة..."&gt;
+&lt;button id="addBtn"&gt;إضافة&lt;/button&gt;
+&lt;ul id="todos"&gt;&lt;/ul&gt;
+&lt;script&gt;
+  function add() {
+    const val = document.getElementById('inp').value.trim();
+    if (!val) return;
+    const li = document.createElement('li');
+    li.innerHTML = `${val} &lt;button onclick="this.parentElement.remove()"&gt;✕&lt;/button&gt;`;
+    document.getElementById('todos').appendChild(li);
+    document.getElementById('inp').value = '';
+  }
+  document.getElementById('addBtn').addEventListener('click', add);
+  document.getElementById('inp').addEventListener('keypress', e => { if(e.key==='Enter') add(); });
+&lt;/script&gt;</div>
+        <div class="challenge-result" id="cr-js6"></div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="showLesson('js5')">→ السابق</button>
+      <div style="display:flex;gap:.6rem">
+        <button class="btn-complete" id="comp-js6" onclick="completeLesson('js6')">✅ إتممت الدرس</button>
+        <button class="btn-nav" onclick="showPage('progress')" style="background:var(--green);color:#000;border-color:var(--green)">🎉 شوف تقدمك!</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ===== STATE =====
+const LESSONS = ['html1','html2','html3','html4','html5','html6','css1','css2','css3','css4','css5','css6','js1','js2','js3','js4','js5','js6'];
+const LESSON_NAMES = {
+  html1:'ما هو HTML؟',html2:'العناصر والوسوم',html3:'العناوين والفقرات',html4:'الروابط والصور',html5:'القوائم والجداول',html6:'النماذج والإدخال',
+  css1:'مقدمة في CSS',css2:'الألوان والخطوط',css3:'Box Model',css4:'Flexbox',css5:'CSS Grid',css6:'Animations',
+  js1:'مقدمة في JS',js2:'المتغيرات',js3:'الدوال',js4:'الشروط والحلقات',js5:'DOM Manipulation',js6:'Events & APIs'
+};
+let completed = JSON.parse(localStorage.getItem('wc_completed') || '[]');
+let currentPage = 'home';
+
+// ===== NAVIGATION =====
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-'+name);
+  if(page) page.classList.add('active');
+  const nav = document.getElementById('nav-'+name);
+  if(nav) nav.classList.add('active');
+  currentPage = name;
+  window.scrollTo(0,0);
+  if(name === 'progress') updateProgressPage();
+  closeSidebarMobile();
+}
+
+function showLesson(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+  const nav = document.getElementById('nav-'+id);
+  if(nav) nav.classList.add('active');
+  currentPage = id;
+  window.scrollTo(0,0);
+  updateCompBtn(id);
+  closeSidebarMobile();
+}
+
+// ===== COMPLETION =====
+function completeLesson(id) {
+  if(!completed.includes(id)) {
+    completed.push(id);
+    localStorage.setItem('wc_completed', JSON.stringify(completed));
+  }
+  updateCompBtn(id);
+  updateSidebarCheck(id);
+  updateOverallProgress();
+  const statusEl = document.getElementById('status-'+id);
+  if(statusEl) statusEl.textContent = '✅ مكتمل';
+}
+
+function updateCompBtn(id) {
+  const btn = document.getElementById('comp-'+id);
+  if(!btn) return;
+  if(completed.includes(id)) {
+    btn.textContent = '✅ مكتمل';
+    btn.classList.add('done-btn');
+  }
+}
+
+function updateSidebarCheck(id) {
+  const chk = document.getElementById('chk-'+id);
+  if(chk) chk.textContent = '✓';
+  const nav = document.getElementById('nav-'+id);
+  if(nav) nav.classList.add('done');
+}
+
+function updateOverallProgress() {
+  const pct = Math.round((completed.length / LESSONS.length) * 100);
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallBar').style.width = pct + '%';
+}
+
+function updateProgressPage() {
+  const total = LESSONS.length;
+  const done = completed.length;
+  document.getElementById('p-done').textContent = done + ' / ' + total;
+  document.getElementById('p-pct').textContent = Math.round(done/total*100) + '%';
+
+  const htmlDone = completed.filter(l => l.startsWith('html')).length;
+  const cssDone = completed.filter(l => l.startsWith('css')).length;
+  const jsDone = completed.filter(l => l.startsWith('js')).length;
+
+  document.getElementById('pct-html').textContent = Math.round(htmlDone/6*100) + '%';
+  document.getElementById('bar-html').style.width = Math.round(htmlDone/6*100) + '%';
+  document.getElementById('pct-css').textContent = Math.round(cssDone/6*100) + '%';
+  document.getElementById('bar-css').style.width = Math.round(cssDone/6*100) + '%';
+  document.getElementById('pct-js').textContent = Math.round(jsDone/6*100) + '%';
+  document.getElementById('bar-js').style.width = Math.round(jsDone/6*100) + '%';
+
+  const list = document.getElementById('completed-lessons-list');
+  if(completed.length === 0) {
+    list.textContent = 'لم تكمل أي درس بعد';
+  } else {
+    list.innerHTML = completed.map(id => `✅ ${LESSON_NAMES[id] || id}`).join('<br>');
+  }
+}
+
+// ===== CODE EDITOR =====
+function runCode(editorId, outputId) {
+  const code = document.getElementById(editorId).value;
+  const iframe = document.getElementById(outputId);
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write(code);
+  doc.close();
+}
+
+function copyCode(editorId) {
+  const code = document.getElementById(editorId).value;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target;
+    btn.textContent = 'تم النسخ ✓';
+    setTimeout(() => btn.textContent = 'نسخ', 1500);
+  });
+}
+
+// ===== QUIZ =====
+function checkQ(opt, groupId, isCorrect, feedback) {
+  const opts = document.querySelectorAll('#' + groupId + ' .quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  if(isCorrect) opt.classList.add('correct');
+  else opt.classList.add('wrong');
+  const fb = document.getElementById('fb-' + groupId.replace('q-',''));
+  if(fb) {
+    fb.textContent = feedback;
+    fb.className = 'quiz-feedback show ' + (isCorrect ? 'ok' : 'bad');
+  }
+}
+
+// ===== CHALLENGE =====
+const CHALLENGE_KEYWORDS = {
+  html1: ['<!doctype','html','head','title','body'],
+  html2: ['h2','p','strong','hr'],
+  html3: ['h1','h2','p'],
+  html4: ['img','href','target','_blank'],
+  html5: ['table','tr','th','td'],
+  html6: ['form','input','type','button'],
+  css1: ['style','color','background','font-size'],
+  css2: ['font-size','font-weight','color','background'],
+  css3: ['padding','margin','border-radius','box-shadow'],
+  css4: ['display','flex','gap'],
+  css5: ['display','grid','grid-template-columns'],
+  css6: ['transition','hover',':hover'],
+  js1: ['button','onclick','alert','prompt'],
+  js2: ['let','const','innerHTML','template'],
+  js3: ['function','return'],
+  js4: ['for','if','else'],
+  js5: ['getElementById','innerHTML','addEventListener'],
+  js6: ['addEventListener','click','input']
+};
+
+function checkChallenge(id) {
+  const code = document.getElementById('ch-'+id).value.toLowerCase();
+  const keywords = CHALLENGE_KEYWORDS[id] || [];
+  const found = keywords.filter(k => code.includes(k.toLowerCase()));
+  const score = found.length / keywords.length;
+  const result = document.getElementById('cr-'+id);
+  result.className = 'challenge-result show ' + (score >= 0.6 ? 'ok' : 'bad');
+  if(score >= 0.6) {
+    result.innerHTML = `🎉 ممتاز! وجدنا ${found.length}/${keywords.length} عناصر مطلوبة. استمر!`;
+    completeLesson(id);
+  } else {
+    result.innerHTML = `⚠️ وجدنا ${found.length}/${keywords.length} فقط. تحقق من: ${keywords.filter(k => !code.includes(k.toLowerCase())).join(', ')}`;
+  }
+}
+
+function toggleHint(id) {
+  const h = document.getElementById(id);
+  h.classList.toggle('show');
+}
+
+// ===== MOBILE =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('mobile-hidden');
+}
+function closeSidebarMobile() {
+  if(window.innerWidth <= 768) document.getElementById('sidebar').classList.add('mobile-hidden');
+}
+
+// ===== INIT =====
+function init() {
+  completed.forEach(id => {
+    updateSidebarCheck(id);
+    const statusEl = document.getElementById('status-'+id);
+    if(statusEl) statusEl.textContent = '✅ مكتمل';
+  });
+  updateOverallProgress();
+  if(window.innerWidth <= 768) document.getElementById('sidebar').classList.add('mobile-hidden');
+}
+
+init();
+</script>
+</body>
+</html>
